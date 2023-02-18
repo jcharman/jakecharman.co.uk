@@ -1,0 +1,15 @@
+.box{
+    max-width: 90%;
+    min-height: 300px;
+    height: min-content !important;
+}
+
+#links{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#links>a{
+    margin-top: 10px;
+}
