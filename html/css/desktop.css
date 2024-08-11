@@ -58,12 +58,12 @@ body{
     border: 2px solid black;
 }
 
-#social{
-    margin-top: 50px;
+.buttons{
     font-size: 1.5em;
+    line-height: 2em;
 }
 
-#social>a{
+.buttons>a{
     text-decoration: none;
     padding: 6px;
     color: white;
@@ -73,7 +73,7 @@ body{
     text-align: center;
 }
 
-#social>a:hover{
+.buttons>a:hover{
     color: black;
     background: white;
     border: 2px solid black;
@@ -82,4 +82,13 @@ body{
 .more-padding{
     padding-left: 7px !important;
     padding-right: 7px !important;
+}
+
+#njr_button{
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.8em;
+}
+
+#njr_div{
+    margin-top: 11px;
 }
