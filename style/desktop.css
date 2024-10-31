@@ -1,0 +1,39 @@
+@media (min-width: 1000px) {
+    #technology{
+        background-position-x: 35vw;
+        height: 75vh;
+        min-height: 75vh;
+    }
+
+    #motorsport{
+        background-position-y: -180px;
+        background-position-x: -200px;
+        background-size: auto;
+        min-height: 75vh;
+        height: 75vh;
+    }
+
+    .text{
+        width: 50%;
+        height: 100%;
+        align-items: flex-start;
+    }
+
+    .text-right{
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    .text-left{
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+    .gradient-left{
+        background-image: linear-gradient(to right, rgba(31, 31, 31, 1), rgba(31, 31, 31, 1), rgba(31, 31, 31, 0));
+    }
+
+    .gradient-right{
+        background-image: linear-gradient(to left, rgba(31, 31, 31, 1), rgba(31, 31, 31, 1), rgba(31, 31, 31, 0));
+    }
+}
