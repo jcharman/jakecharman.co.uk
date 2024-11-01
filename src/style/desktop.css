@@ -30,10 +30,10 @@
     }
 
     .gradient-left{
-        background-image: linear-gradient(to right, rgba(31, 31, 31, 1), rgba(31, 31, 31, 1), rgba(31, 31, 31, 0));
+        background-image: linear-gradient(to right, rgba(23, 22, 20, 1), rgba(23, 22, 20, 1), rgba(23, 22, 20, 0));
     }
 
     .gradient-right{
-        background-image: linear-gradient(to left, rgba(31, 31, 31, 1), rgba(31, 31, 31, 1), rgba(31, 31, 31, 0));
+        background-image: linear-gradient(to left,  rgba(23, 22, 20, 1), rgba(23, 22, 20, 1), rgba(23, 22, 20, 0));
     }
 }

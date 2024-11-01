@@ -1,0 +1,93 @@
+body{
+    margin: 0;
+    color: #e5e5e5;
+    font-family: "Noto Sans", sans-serif;
+}
+
+h1, h2{
+    font-family: "Orbitron", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+header{
+    width: 100%;
+    height: 25vh;
+    display: flex;
+    align-items: center;
+    background-color: 4c4c4c;
+}
+
+footer{
+    background-color: 4c4c4c;
+    padding: 30px;
+    text-align: center;
+}
+
+#logo{
+    text-align: center;
+    margin: 0 auto 0 auto;
+}
+
+footer h2, section h2{
+    margin: 0;
+}
+
+#technology{
+    background-image: url(../images/njr-code.png);
+    margin: 0;
+    min-height: 100vh;
+    background-position: center;
+    background-position-x: -400px;
+}
+
+#motorsport{
+    background-image: url(../images/topfuel_startline.jpg.jpeg);
+    margin: 0;
+    min-height: 100vh;
+    background-position: center;
+    background-position-x: -65px;
+    background-position-y: -90px;
+    background-size: 200%;
+}
+
+.gradient{
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to top, rgba(23, 22, 20, 1) 70%, rgba(23, 22, 20, 0));
+    display: flex;
+    align-items: flex-end;
+}
+
+.text{
+    height: 70%;
+    width: 100%;
+}
+
+.text>div{
+    padding: 30px;
+}
+
+.button{
+    padding: 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #e5e5e5;
+}
+
+.button:hover{
+    color: rgba(23, 22, 20, 1);
+    background-color: #e5e5e5;
+}
+
+.social{
+    text-align: center;
+    padding: 20px;
+    font-size: 1.5rem;
+}
+
+a{
+    color: #e5e5e5;
+}
