@@ -37,7 +37,7 @@ footer h2, section h2{
 #technology{
     background-image: url(../images/njr-code.png);
     margin: 0;
-    min-height: 100vh;
+    height: 100vh;
     background-position: center;
     background-position-x: -400px;
 }
@@ -45,7 +45,7 @@ footer h2, section h2{
 #motorsport{
     background-image: url(../images/topfuel_startline.jpg.jpeg);
     margin: 0;
-    min-height: 100vh;
+    height: 100vh;
     background-position: center;
     background-position-x: -65px;
     background-position-y: -90px;
