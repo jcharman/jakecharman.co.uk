@@ -36,4 +36,17 @@
     .gradient-right{
         background-image: linear-gradient(to left,  rgba(23, 22, 20, 1), rgba(23, 22, 20, 1), rgba(23, 22, 20, 0));
     }
+
+    #projects{
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .project{
+        width: 20vw;
+        height: 25vw;
+        margin: 10px;
+    }
 }

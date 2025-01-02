@@ -1,2 +1,19 @@
 {% include 'header.html' %}
+    <main>
+        <h2>Projects</h2>
+        <p>A selection of projects I've worked on.</p>
+        <section id="projects">
+            {% for row in articles %}
+            <div class="project">
+                {% if row.get('link') is not none %}
+                <a href="{{ row.link }}"><h2>{{ row.title }}</h2></a>
+                {% else %}
+                <a href="./{{ row.get('categpry', '.') }}/{{ row.id }}"><h2>{{ row.title }}</h2></a>
+                {% endif %}
+                <p class="article-description">{{ row.description }}</p>
+                <p class="article-date">{{ row.date | human_date }}</p>
+            </div>
+            {% endfor %}
+        </section>
+    </main>
 {% include 'footer.html' %}

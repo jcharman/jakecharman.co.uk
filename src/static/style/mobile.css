@@ -91,3 +91,14 @@ footer h2, section h2{
 a{
     color: #e5e5e5;
 }
+
+#projects{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.project{
+    width: 80vw;
+    border: 2px solid rgba(23, 22, 20, 1);
+}

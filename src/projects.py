@@ -1,12 +1,16 @@
 #!/usr/bin/python3
 
-from main import application as app
-import common
 from os import path
 import json
-from flask import render_template, Response, send_from_directory
+from flask import Flask, render_template, Response, send_from_directory
 from markdown import markdown
+import frontmatter
+from glob import glob
+from datetime import datetime
 
+
+application = Flask(__name__)
+app = application
 md_directory = path.join(path.realpath(path.dirname(__file__)), path.normpath('projects/'))
 
 @app.context_processor
@@ -38,7 +42,14 @@ def get_by_meta_key(directory: str, key: str, value: str):
 
 @app.route('/')
 def index():
-    return "Hello, World!"
+    articles_to_return = sorted(
+        get_all_posts(
+            md_directory), 
+            key=lambda d: d.metadata.get('date'),
+            reverse=True
+        )
+
+    return render_template('projects.html', articles=articles_to_return)
 
 @app.route('/error/<code>')
 def error(code):
@@ -80,7 +91,7 @@ def category(category):
         return Response(status=404)
 
     articles_to_return = sorted(
-        common.get_by_meta_key(
+        get_by_meta_key(
             md_directory, 'category', category), 
             key=lambda d: d.metadata.get('date'),
             reverse=True
@@ -93,7 +104,7 @@ def category(category):
 
 @app.route('/<category>/<article>')
 def article(category, article):
-    articles = [x for x in common.get_by_meta_key(md_directory, 'id', article) if x.metadata.get('category') == category]
+    articles = [x for x in get_by_meta_key(md_directory, 'id', article) if x.metadata.get('category') == category]
 
     if len(articles) == 0:
         return Response(status=404)
