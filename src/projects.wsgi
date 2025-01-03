@@ -3,4 +3,4 @@
 import sys
 sys.path.append('/var/www/jc')
 
-from projects import application
+from index import app as application

@@ -7,10 +7,9 @@ from markdown import markdown
 import frontmatter
 from glob import glob
 from datetime import datetime
+from index import app
+from bs4 import BeautifulSoup
 
-
-application = Flask(__name__)
-app = application
 md_directory = path.join(path.realpath(path.dirname(__file__)), path.normpath('projects/'))
 
 @app.context_processor
@@ -21,6 +20,13 @@ def processor():
         all_text = ' '.join([x.get_text() for x in post_soup.findAll('p')])
         return ' '.join(all_text.split()[:200])
     return dict(get_excerpt=get_excerpt)
+
+@app.template_filter('category_title')
+def category_title(category_id: str) -> str:
+    with open(path.join(md_directory, 'categories.json')) as categories_file:
+        categories = json.load(categories_file)
+
+    return categories.get(category_id).get('title', '')
 
 @app.template_filter('human_date')
 def human_date(iso_date: str) -> str:
@@ -38,10 +44,10 @@ def get_all_posts(directory: str) -> list:
     return [frontmatter.load(x) for x in abs_paths]
 
 def get_by_meta_key(directory: str, key: str, value: str):
-    return [x for x in get_all_posts(directory) if x.get(key) == value]
+    return [x for x in get_all_posts(directory) if x.get(key) == value or type(x.get(key, [])) is list and value in x.get(key, [])]
 
-@app.route('/')
-def index():
+@app.route('/projects/')
+def projects():
     articles_to_return = sorted(
         get_all_posts(
             md_directory), 
@@ -49,50 +55,24 @@ def index():
             reverse=True
         )
 
-    return render_template('projects.html', articles=articles_to_return)
+    with open(path.join(md_directory, 'categories.json')) as categories_file:
+        categories = json.load(categories_file)
 
-@app.route('/error/<code>')
-def error(code):
-    error_definitions = {
-        400: 'Bad Request',
-        403: 'Forbidden',
-        404: 'Page Not Found',
-        418: 'I\'m a Teapot',
-        500: 'Internal Server Error',
-        503: 'Service Temporarily Unavailable',
-        505: 'HTTP Version Not Supported'
-    }
-    error_desc = {
-        400: 'Sorry, we didn\'t understand your request.',
-        403: 'Sorry, you aren\'t allowed to view this page.',
-        404: 'Sorry, that page doesn\'t exist.',
-        418: 'I can\'t brew coffee as I am, in fact, a teapot.',
-        500: 'Something went wrong on our end.',
-        503: 'Our website is experiencing some issues and will be back shortly.',
-        505: 'Your browser tried to use a HTTP version we don\'t support. Check it is up to date.'
-    }
-    errorText = f'''
-        <div id='error'>
-            <h2>{code}: {error_definitions.get(int(code))}</h2>
-            <p>{error_desc.get(int(code))}</p>
-            <a href='/'>Click here to return to our homepage</a>
-        </div>
-    '''
-    return render_template('error.html', post=errorText)
+    return render_template('projects.html', articles=articles_to_return, all_categories=categories)
 
-@app.route('/<category>/')
+@app.route('/projects/category/<category>/')
 def category(category):
     with open(path.join(md_directory, 'categories.json')) as categories_file:
         categories = json.load(categories_file)
 
-    the_category = next((x for x in categories if x.get('id') == category), None)
+    the_category = categories.get(category)
 
     if the_category is None:
         return Response(status=404)
 
     articles_to_return = sorted(
         get_by_meta_key(
-            md_directory, 'category', category), 
+            md_directory, 'categories', category), 
             key=lambda d: d.metadata.get('date'),
             reverse=True
         )
@@ -100,11 +80,16 @@ def category(category):
     return render_template('projects.html', articles=articles_to_return,
                            title=the_category['title'], 
                            description=the_category['long_description'],
-                           pageName=f'{the_category["title"]} -')
+                           page_title=f'{the_category["title"]} - ',
+                           all_categories=categories,
+                           current_category=category)
 
-@app.route('/<category>/<article>')
-def article(category, article):
-    articles = [x for x in get_by_meta_key(md_directory, 'id', article) if x.metadata.get('category') == category]
+@app.route('/projects/<article>')
+def article(article):
+    articles = get_by_meta_key(md_directory, 'id', article)
+    print(articles)
+    for i in articles:
+        print(i.metadata)
 
     if len(articles) == 0:
         return Response(status=404)
@@ -113,8 +98,8 @@ def article(category, article):
 
     the_article = articles[0]
     return render_template('article.html', post=markdown(the_article.content), metadata=the_article.metadata,
-                                   pageName=f'{the_article.metadata["title"]} - {the_article.metadata["author"]} -')
+                                   pageName=f'{the_article.metadata["title"]} - ')
 
-@app.route('/image/<image>')
+@app.route('/projects/image/<image>')
 def image(image):
     return send_from_directory(path.join(md_directory, 'images'), image)

@@ -1,2 +1,10 @@
 {% include 'header.html' %}
+<main>
+    <section id="tech-article">
+        <h1>{{ metadata.title}} </h1>
+        <p>{{ metadata.date | human_date }}</p>
+        <hr />
+        {{post|safe}}
+    </section>
+</main>
 {% include 'footer.html' %}

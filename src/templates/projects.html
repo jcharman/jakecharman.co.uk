@@ -1,17 +1,30 @@
 {% include 'header.html' %}
     <main>
-        <h2>Projects</h2>
-        <p>A selection of projects I've worked on.</p>
+        <nav id="filter">
+            <label for="filter_category">Filter:</label>
+            <select id="filter_category" name="filter_category">
+                <option value="all">All Categories</option>
+                {% for category in all_categories %}
+                <option {{ 'selected' if current_category == category }} value="{{ category }}">{{all_categories.get(category).get('title')}}</option>
+                {% endfor %}
+            </select>
+        </nav>
+        <h2>{{ title }}</h2>
+        <p>{{ description }}</p>
         <section id="projects">
             {% for row in articles %}
             <div class="project">
+                <img src="{{ row.image }}">
                 {% if row.get('link') is not none %}
-                <a href="{{ row.link }}"><h2>{{ row.title }}</h2></a>
+                <a href="{{ row.link }}"><h3>{{ row.title }}</h3></a>
                 {% else %}
-                <a href="./{{ row.get('categpry', '.') }}/{{ row.id }}"><h2>{{ row.title }}</h2></a>
+                <a href="/projects/{{ row.id }}"><h3>{{ row.title }}</h3></a>
                 {% endif %}
                 <p class="article-description">{{ row.description }}</p>
                 <p class="article-date">{{ row.date | human_date }}</p>
+                {% for category in row.categories %}
+                <a class="article-category" href="/projects/category/{{ category }}">{{ category | category_title }} </a>
+                {% endfor %}
             </div>
             {% endfor %}
         </section>

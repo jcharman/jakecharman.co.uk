@@ -1,0 +1,12 @@
+    {
+        "software": {
+            "title": "Software",
+            "description": "Projects involving software of some kind",
+            "long_description": "Projects involving software of some kind"
+        },
+        "racing": {
+            "title": "Racing",
+            "description": "Projects to do with motorsport",
+            "long_description": "Projects to do with motorsport"
+        }
+    }

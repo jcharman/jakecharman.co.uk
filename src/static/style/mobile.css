@@ -2,9 +2,14 @@ body{
     margin: 0;
     color: #e5e5e5;
     font-family: "Noto Sans", sans-serif;
+    background-color: rgba(23, 22, 20, 1);
 }
 
-h1, h2{
+main{
+    padding: 0 10px 0 10px;
+}
+
+h1, h2, h3{
     font-family: "Orbitron", sans-serif;
     font-optical-sizing: auto;
     font-weight: 500;
@@ -28,6 +33,10 @@ footer{
 #logo{
     text-align: center;
     margin: 0 auto 0 auto;
+}
+
+#logo>a{
+    text-decoration: none;
 }
 
 footer h2, section h2{
@@ -100,5 +109,6 @@ a{
 
 .project{
     width: 80vw;
-    border: 2px solid rgba(23, 22, 20, 1);
+    border: 2px solid #e5e5e5;
+    margin: 10px;
 }
