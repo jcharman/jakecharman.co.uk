@@ -31,11 +31,7 @@ def error(code):
         503: 'Our website is experiencing some issues and will be back shortly.',
         505: 'Your browser tried to use a HTTP version we don\'t support. Check it is up to date.'
     }
-    errorText = f'''
-        <div id='error'>
-            <h2>{code}: {error_definitions.get(int(code))}</h2>
-            <p>{error_desc.get(int(code))}</p>
-            <a href='/'>Click here to return to our homepage</a>
-        </div>
-    '''
-    return render_template('error.html', post=errorText)
+
+    return render_template('error.html', code=code,
+                           description=error_definitions.get(int(code)), 
+                           long_description=error_desc.get(int(code)))

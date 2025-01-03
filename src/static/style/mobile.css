@@ -5,10 +5,6 @@ body{
     background-color: rgba(23, 22, 20, 1);
 }
 
-main{
-    padding: 0 10px 0 10px;
-}
-
 h1, h2, h3{
     font-family: "Orbitron", sans-serif;
     font-optical-sizing: auto;
@@ -17,17 +13,23 @@ h1, h2, h3{
 }
 
 header{
-    width: 100%;
-    height: 25vh;
-    display: flex;
-    align-items: center;
     background-color: 4c4c4c;
+    height: 25vh;
+    width: 100%;
 }
 
 footer{
     background-color: 4c4c4c;
-    padding: 30px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+}
+
+#logo-container{
+    width: 100%;
+    justify-content: center;
+    display: flex;
 }
 
 #logo{
@@ -111,4 +113,40 @@ a{
     width: 80vw;
     border: 2px solid #e5e5e5;
     margin: 10px;
+}
+
+.project-thumb{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#filter {
+    float: right;
+}
+
+#top-nav{
+    width: 100%;
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+#top-nav>a{
+    text-decoration: none;
+    padding: 0 10px 0 10px;
+    font-weight: bold;
+}
+
+#top-nav>a:hover{
+    text-decoration: underline;
+}
+
+#error-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 65vh;
+}
+
+#error{
+    text-align: center;
 }

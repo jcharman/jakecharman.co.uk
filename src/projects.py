@@ -58,13 +58,13 @@ def projects():
     with open(path.join(md_directory, 'categories.json')) as categories_file:
         categories = json.load(categories_file)
 
-    return render_template('projects.html', articles=articles_to_return, all_categories=categories)
+    return render_template('projects.html', articles=articles_to_return, all_categories=categories, title='Projects', description='A selection of projects I\'ve been involved in')
 
 @app.route('/projects/category/<category>/')
 def category(category):
     with open(path.join(md_directory, 'categories.json')) as categories_file:
         categories = json.load(categories_file)
-
+    print(categories)
     the_category = categories.get(category)
 
     if the_category is None:

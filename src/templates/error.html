@@ -1,5 +1,11 @@
 {% include 'header.html' %}
-<section id="error">
-    {{ post | safe }}
-</section>
+<main>
+    <div id="error-container">
+        <div id='error'>
+            <h2>{{ code }}: {{ description }}</h2>
+            <p>{{ long_description }}</p>
+            <a href='/'>Click here to return to our homepage</a>
+        </div>
+    </div>
+</main>
 {% include 'footer.html' %}

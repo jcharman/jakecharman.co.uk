@@ -2,7 +2,7 @@
     <main>
         <nav id="filter">
             <label for="filter_category">Filter:</label>
-            <select id="filter_category" name="filter_category">
+            <select id="filter_category" name="filter_category" onchange="update_filter()">
                 <option value="all">All Categories</option>
                 {% for category in all_categories %}
                 <option {{ 'selected' if current_category == category }} value="{{ category }}">{{all_categories.get(category).get('title')}}</option>
@@ -14,7 +14,7 @@
         <section id="projects">
             {% for row in articles %}
             <div class="project">
-                <img src="{{ row.image }}">
+                <img class="project-thumb" src="/projects/image/{{ row.image }}">
                 {% if row.get('link') is not none %}
                 <a href="{{ row.link }}"><h3>{{ row.title }}</h3></a>
                 {% else %}
