@@ -55,17 +55,34 @@ def projects():
             reverse=True
         )
 
-    with open(path.join(md_directory, 'categories.json')) as categories_file:
-        categories = json.load(categories_file)
+    if len(articles_to_return) < 1:
+        return render_template('error.html',
+                               error='There\'s nothing here... yet.',
+                               description='I\'m still working on this page. Check back soon for some content.')
+    try:
+        with open(path.join(md_directory, 'categories.json')) as categories_file:
+            categories = json.load(categories_file)
+    except FileNotFoundError:
+        return render_template('error.html',
+                               error='There\'s nothing here... yet.',
+                               description='I\'m still working on this page. Check back soon for some content.')
 
-    return render_template('projects.html', articles=articles_to_return, all_categories=categories, title='Projects', description='A selection of projects I\'ve been involved in')
+    return render_template('projects.html',
+                           articles=articles_to_return,
+                           all_categories=categories,
+                           title='Projects',
+                           description='A selection of projects I\'ve been involved in')
 
 @app.route('/projects/category/<category>/')
 def category(category):
-    with open(path.join(md_directory, 'categories.json')) as categories_file:
-        categories = json.load(categories_file)
-    print(categories)
-    the_category = categories.get(category)
+    try:
+        with open(path.join(md_directory, 'categories.json')) as categories_file:
+            categories = json.load(categories_file)
+        the_category = categories.get(category)
+    except FileNotFoundError:
+        return render_template('error.html',
+                               error='There\'s nothing here... yet.',
+                               description='I\'m still working on this page. Check back soon for some content.')
 
     if the_category is None:
         return Response(status=404)
@@ -77,6 +94,11 @@ def category(category):
             reverse=True
         )
 
+    if len(articles_to_return) < 1:
+        return render_template('error.html',
+                               error='There\'s nothing here... yet.',
+                               description='I\'m still working on this page. Check back soon for some content.')
+
     return render_template('projects.html', articles=articles_to_return,
                            title=the_category['title'], 
                            description=the_category['long_description'],
@@ -87,9 +109,6 @@ def category(category):
 @app.route('/projects/<article>')
 def article(article):
     articles = get_by_meta_key(md_directory, 'id', article)
-    print(articles)
-    for i in articles:
-        print(i.metadata)
 
     if len(articles) == 0:
         return Response(status=404)
@@ -97,8 +116,9 @@ def article(article):
         return Response(status=500)
 
     the_article = articles[0]
-    return render_template('article.html', post=markdown(the_article.content), metadata=the_article.metadata,
-                                   pageName=f'{the_article.metadata["title"]} - ')
+    return render_template('article.html', post=markdown(the_article.content), 
+                           metadata=the_article.metadata,
+                           page_title=f'{the_article.metadata["title"]} - ')
 
 @app.route('/projects/image/<image>')
 def image(image):

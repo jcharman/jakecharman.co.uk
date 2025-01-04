@@ -128,6 +128,7 @@ a{
     width: 100%;
     text-align: center;
     padding-bottom: 30px;
+    padding-top: 20px
 }
 
 #top-nav>a{
@@ -149,4 +150,21 @@ a{
 
 #error{
     text-align: center;
+}
+
+#project-main{
+    padding: 0 10px 0 10px;
+    min-height: 65vh;
+}
+
+.project-text{
+    padding: 10px;
+}
+
+.article-category{
+    text-decoration: none;
+}
+
+.article-category:hover{
+    text-decoration: underline;
 }

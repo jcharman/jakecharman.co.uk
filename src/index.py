@@ -8,7 +8,6 @@ import projects
 
 @app.route('/')
 def index():
-    print('blah')
     return render_template('index.html')
 
 @app.route('/error/<code>')
@@ -23,15 +22,15 @@ def error(code):
         505: 'HTTP Version Not Supported'
     }
     error_desc = {
-        400: 'Sorry, we didn\'t understand your request.',
+        400: 'Sorry, I didn\'t understand your request.',
         403: 'Sorry, you aren\'t allowed to view this page.',
         404: 'Sorry, that page doesn\'t exist.',
         418: 'I can\'t brew coffee as I am, in fact, a teapot.',
-        500: 'Something went wrong on our end.',
-        503: 'Our website is experiencing some issues and will be back shortly.',
-        505: 'Your browser tried to use a HTTP version we don\'t support. Check it is up to date.'
+        500: 'Something went wrong on my end.',
+        503: 'My website is experiencing some issues and will be back shortly.',
+        505: 'Your browser tried to use a HTTP version I don\'t support. Check it is up to date.'
     }
 
-    return render_template('error.html', code=code,
-                           description=error_definitions.get(int(code)), 
-                           long_description=error_desc.get(int(code)))
+    return render_template('error.html', 
+                           error=f'{code}: {error_definitions.get(int(code))}',
+                           description=error_desc.get(int(code)))
