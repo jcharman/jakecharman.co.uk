@@ -1,16 +1,20 @@
 {% include 'header.html' %}
-<main>
+<main id="contact-main">
     <h2>Contact Me</h2>
     <p>Got a question or want to talk about something on this site? Drop me a message below:</p>
 
     <form action="#" method="post">
         <label for="name">Name:</label>
-        <input type="text" name="name">
+        <input type="text" name="name" required>
         <label for="email">Email Address:</label>
-        <input type="email" name="email">
+        <input type="email" name="email" required>
         <label for="message">Message:</label>
-        <textarea name="message"></textarea>
+        <textarea name="message" rows="10"></textarea>
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAA45FeR26JuvqKy7"></div>
         <input type="submit" name="submit" value="Submit">
     </form>
+    {% if user_message is not none %}
+        <p id="{{ 'contact-error' if error else 'contact-message' }}">{{ user_message }}</p>
+    {% endif %}
 </main>
 {% include 'footer.html' %}
