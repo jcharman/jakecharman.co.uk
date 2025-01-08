@@ -5,6 +5,7 @@ from flask import Flask, render_template, Response
 app = Flask(__name__)
 
 import projects
+import contact
 
 @app.route('/')
 def index():
