@@ -2,13 +2,15 @@
 
 from os import path
 import json
-from flask import Flask, render_template, Response, send_from_directory
+from flask import Flask, render_template, Response, send_from_directory, request, make_response
 from markdown import markdown
 import frontmatter
 from glob import glob
 from datetime import datetime
 from index import app
 from bs4 import BeautifulSoup
+from PIL import Image
+from io import BytesIO
 
 md_directory = path.join(path.realpath(path.dirname(__file__)), path.normpath('projects/'))
 
@@ -122,4 +124,31 @@ def article(article):
 
 @app.route('/projects/image/<image>')
 def image(image):
-    return send_from_directory(path.join(md_directory, 'images'), image)
+    w = int(request.args.get('w', 0))
+    h = int(request.args.get('h', 0))
+
+    if w == 0 and h == 0:
+        return send_from_directory(md_directory, path.join('images', image))
+    try:
+        the_image = Image.open(path.join(md_directory, 'images', image))
+    except FileNotFoundError:
+        return Response(status=404)
+    max_width, max_height = the_image.size
+
+    if (w >= max_width and h >= max_height):
+        return send_from_directory(md_directory, path.join('images', image))
+
+    req_size = [max_width, max_height]
+    if w > 0:
+        req_size[0] = w
+    if h > 0:
+        req_size[1] = h
+
+    resized_img = BytesIO()
+    the_image.thumbnail(tuple(req_size))
+    the_image.save(resized_img, format='jpeg')
+    
+    response = make_response(resized_img.getvalue())
+    response.headers.set('Content-Type', 'image/jpeg')
+    return response
+

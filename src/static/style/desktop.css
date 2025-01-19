@@ -42,6 +42,8 @@
         justify-content: center;
         flex-direction: row;
         flex-wrap: wrap;
+        margin: 0 auto 0 auto;
+        width: 80vw;
     }
     
     .project{
@@ -60,5 +62,9 @@
     #logo-container{
         position: absolute;
         height: 25vh;
+    }
+
+    #article>p>img{
+        display: inline;
     }
 }

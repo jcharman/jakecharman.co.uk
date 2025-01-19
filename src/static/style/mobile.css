@@ -204,3 +204,12 @@ label{
 #contact-error{
     color: red;
 }
+
+#article{
+    padding: 0 10px 0 10px;
+}
+
+#article>p>img{
+    display: block;
+    margin: 0 auto 0 auto;
+}
