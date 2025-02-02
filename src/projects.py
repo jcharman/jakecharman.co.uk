@@ -146,9 +146,9 @@ def image(image):
 
     resized_img = BytesIO()
     the_image.thumbnail(tuple(req_size))
-    the_image.save(resized_img, format='jpeg')
+    the_image.save(resized_img, format=the_image.format)
     
     response = make_response(resized_img.getvalue())
-    response.headers.set('Content-Type', 'image/jpeg')
+    response.headers.set('Content-Type', f'image/{the_image.format}')
     return response
 
