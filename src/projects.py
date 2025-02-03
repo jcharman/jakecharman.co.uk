@@ -9,7 +9,7 @@ from glob import glob
 from datetime import datetime
 from index import app
 from bs4 import BeautifulSoup
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 from io import BytesIO
 
 md_directory = path.join(path.realpath(path.dirname(__file__)), path.normpath('projects/'))
@@ -133,6 +133,9 @@ def image(image):
         the_image = Image.open(path.join(md_directory, 'images', image))
     except FileNotFoundError:
         return Response(status=404)
+    except UnidentifiedImageError:
+        return send_from_directory(md_directory, path.join('images', image))
+
     max_width, max_height = the_image.size
 
     if (w >= max_width and h >= max_height):
