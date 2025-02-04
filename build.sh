@@ -6,6 +6,6 @@ tag=$1
 build=$2
 
 docker build -t ${tag}:latest .
-if [[ $build == "" ]]; then
+if [[ $build != "" ]]; then
     docker build -t ${tag}:${build} .
 fi
