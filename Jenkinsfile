@@ -99,7 +99,7 @@ pipeline {
                     sh "docker stop jake || true"
                     sh "docker rm jake || true"
                     sh "docker run --name jake -e DISCORD_WEBHOOK=$DISCORD -e TURNSTILE_SECRET=$TS --restart always --network containers_default -v /opt/containers/jc/projects/:/var/www/jc/projects/ -d registry.jakecharman.co.uk/jakecharman.co.uk:latest"
-                    sh "/home/jenkins/clearCFCache/clearCache.py 5e240c6ea7864f5f7456af530e6ca988"
+                    sh "/home/jenkins/clearCFCache/clearCache.py a514fb61e1413b88aabbb19df16b8508"
                 }
             }
         }
