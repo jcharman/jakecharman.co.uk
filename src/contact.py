@@ -59,4 +59,4 @@ def contact():
             return render_template('contact.html', user_message='Your message has been sent!')
         return render_template('contact.html', error=True, user_message='An error occurred.')
     else:
-        return render_template('contact.html')
+        return render_template('contact.html', page_title='Contact - ')

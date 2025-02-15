@@ -73,7 +73,8 @@ def projects():
                            articles=articles_to_return,
                            all_categories=categories,
                            title='Projects',
-                           description='A selection of projects I\'ve been involved in')
+                           page_title='Projects - ',
+                           description='A selection of projects I\'ve been involved in1')
 
 @app.route('/projects/category/<category>/')
 def category(category):
