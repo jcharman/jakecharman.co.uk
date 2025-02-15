@@ -56,8 +56,8 @@ pipeline {
             steps{
                 node('web-staging') {
                     sh "docker pull registry.jakecharman.co.uk/jakecharman.co.uk:latest"
-                    sh "docker stop jc || true"
-                    sh "docker rm jc || true"
+                    sh "docker stop jake || true"
+                    sh "docker rm jake || true"
                     sh "docker run --name jake -e DISCORD_WEBHOOK=$DISCORD -e TURNSTILE_SECRET=$TS --restart always --network containers_default -v /opt/containers/jc/projects/:/var/www/jc/projects/ -d registry.jakecharman.co.uk/jakecharman.co.uk:latest"
                 }
             }
@@ -96,8 +96,8 @@ pipeline {
             steps{
                 node('web-server') {
                     sh "docker pull registry.jakecharman.co.uk/jakecharman.co.uk:latest"
-                    sh "docker stop jc || true"
-                    sh "docker rm jc || true"
+                    sh "docker stop jake || true"
+                    sh "docker rm jake || true"
                     sh "docker run --name jake -e DISCORD_WEBHOOK=$DISCORD -e TURNSTILE_SECRET=$TS --restart always --network containers_default -v /opt/containers/jc/projects/:/var/www/jc/projects/ -d registry.jakecharman.co.uk/jakecharman.co.uk:latest"
                     sh "/home/jenkins/clearCFCache/clearCache.py 5e240c6ea7864f5f7456af530e6ca988"
                 }
