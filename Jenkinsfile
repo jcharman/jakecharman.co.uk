@@ -4,8 +4,8 @@ pipeline {
     environment {
         TS = credentials('jc_turnstile')
         DISCORD = credentials('jc_discord')
-        DISCORD_ERR_STAGING('jc_discord_err_staging')
-        DISCORD_ERR_PROD('jc_discord_err_prod')
+        DISCORD_ERR_STAGING = credentials('jc_discord_err_staging')
+        DISCORD_ERR_PROD = credentials('jc_discord_err_prod')
     }
 
     stages{
