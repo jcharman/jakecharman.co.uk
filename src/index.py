@@ -1,11 +1,48 @@
 #!/usr/bin/python3
 
 from flask import Flask, render_template, Response
+import traceback
+from os import environ
+import threading
+from requests import post
+import logging
 
 app = Flask(__name__)
 
 import projects
 import contact
+
+class DiscordLogger(logging.Handler):
+    ''' Simple logging handler to send a message to Discord '''
+
+    level = logging.ERROR
+
+    def __init__(self, webhook):
+        super().__init__()
+        self._webhook = webhook
+
+    def send_to_discord(self, msg: logging.LogRecord):
+        ''' Send the message '''
+        if msg.exc_info is not None:
+            message_to_send = f'{msg.msg}\n\n{"".join(traceback.format_exception(*msg.exc_info))}'
+        else:
+            message_to_send = msg.msg
+        if len(message_to_send) > 2000:
+            chars_to_lose = len(message_to_send) - 2000
+            if msg.exc_info is not None:
+                message_to_send = f'{msg.msg}\n\n{"".join(traceback.format_exception(*msg.exc_info))[-chars_to_lose:]}'
+            else:
+                message_to_send = msg.msg[-chars_to_lose:]
+        post(self._webhook, data={'content': message_to_send}, timeout=30)
+
+    def emit(self, record: logging.LogRecord) -> None:
+        ''' Take in the record and start a new thread to send it to Discord '''
+        app.logger.info('Sending error to Discord')
+        dc_thread = threading.Thread(target=self.send_to_discord, args=[record])
+        dc_thread.start()
+
+discord_logger = DiscordLogger(environ['DISCORD_ERR_HOOK'])
+app.logger.addHandler(discord_logger)
 
 @app.route('/')
 def index():

@@ -4,6 +4,8 @@ pipeline {
     environment {
         TS = credentials('jc_turnstile')
         DISCORD = credentials('jc_discord')
+        DISCORD_ERR_STAGING('jc_discord_err_staging')
+        DISCORD_ERR_PROD('jc_discord_err_prod')
     }
 
     stages{
@@ -58,7 +60,7 @@ pipeline {
                     sh "docker pull registry.jakecharman.co.uk/jakecharman.co.uk:latest"
                     sh "docker stop jake || true"
                     sh "docker rm jake || true"
-                    sh "docker run --name jake -e DISCORD_WEBHOOK=$DISCORD -e TURNSTILE_SECRET=$TS --restart always --network containers_default -v /opt/containers/jc/projects/:/var/www/jc/projects/ -d registry.jakecharman.co.uk/jakecharman.co.uk:latest"
+                    sh "docker run --name jake -e DISCORD_ERR_HOOK=$DISCORD_ERR_STAGING -e DISCORD_WEBHOOK=$DISCORD -e TURNSTILE_SECRET=$TS --restart always --network containers_default -v /opt/containers/jc/projects/:/var/www/jc/projects/ -d registry.jakecharman.co.uk/jakecharman.co.uk:latest"
                 }
             }
         }
@@ -98,7 +100,7 @@ pipeline {
                     sh "docker pull registry.jakecharman.co.uk/jakecharman.co.uk:latest"
                     sh "docker stop jake || true"
                     sh "docker rm jake || true"
-                    sh "docker run --name jake -e DISCORD_WEBHOOK=$DISCORD -e TURNSTILE_SECRET=$TS --restart always --network containers_default -v /opt/containers/jc/projects/:/var/www/jc/projects/ -d registry.jakecharman.co.uk/jakecharman.co.uk:latest"
+                    sh "docker run --name jake -e DISCORD_ERR_HOOK=$DISCORD_ERR_PROD -e DISCORD_WEBHOOK=$DISCORD -e TURNSTILE_SECRET=$TS --restart always --network containers_default -v /opt/containers/jc/projects/:/var/www/jc/projects/ -d registry.jakecharman.co.uk/jakecharman.co.uk:latest"
                     sh "/home/jenkins/clearCFCache/clearCache.py a514fb61e1413b88aabbb19df16b8508"
                 }
             }
