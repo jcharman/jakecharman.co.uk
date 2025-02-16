@@ -83,7 +83,7 @@ def projects() -> str:
                            page_title='Projects - ',
                            description='A selection of projects I\'ve been involved in1')
 
-@app.route('/projects/category/<category>/')
+@app.route('/projects/category/<category_id>/')
 def category(category_id: str) -> str:
     ''' Load the page for a given category '''
     try:
@@ -117,7 +117,7 @@ def category(category_id: str) -> str:
                            all_categories=categories,
                            current_category=category)
 
-@app.route('/projects/<article>')
+@app.route('/projects/<article_id>')
 def article(article_id: str) -> str:
     ''' Load a single article '''
     articles = get_by_meta_key(md_directory, 'id', article_id)
@@ -132,7 +132,7 @@ def article(article_id: str) -> str:
                            metadata=the_article.metadata,
                            page_title=f'{the_article.metadata["title"]} - ')
 
-@app.route('/projects/image/<image>')
+@app.route('/projects/image/<image_name>')
 def image(image_name: str) -> Response:
     ''' Resize and return an image. '''
     w = int(request.args.get('w', 0))
