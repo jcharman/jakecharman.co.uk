@@ -1,16 +1,17 @@
 #!/usr/bin/python3
 
-from flask import Flask, render_template, Response
 import traceback
 from os import environ
 import threading
-from requests import post
 import logging
+from requests import post
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
-import projects
-import contact
+# These imports need to come after our app is defined as they add routes to it.
+import projects # pylint: disable=wrong-import-position,unused-import
+import contact  # pylint: disable=wrong-import-position,unused-import
 
 class DiscordLogger(logging.Handler):
     ''' Simple logging handler to send a message to Discord '''
@@ -45,11 +46,13 @@ discord_logger = DiscordLogger(environ['DISCORD_ERR_HOOK'])
 app.logger.addHandler(discord_logger)
 
 @app.route('/')
-def index():
+def index() -> str:
+    ''' Load the homepage '''
     return render_template('index.html')
 
 @app.route('/error/<code>')
-def error(code):
+def error(code) -> str:
+    ''' Render a nicer error page for a given code '''
     error_definitions = {
         400: 'Bad Request',
         403: 'Forbidden',
@@ -69,6 +72,6 @@ def error(code):
         505: 'Your browser tried to use a HTTP version I don\'t support. Check it is up to date.'
     }
 
-    return render_template('error.html', 
+    return render_template('error.html',
                            error=f'{code}: {error_definitions.get(int(code))}',
                            description=error_desc.get(int(code)))
