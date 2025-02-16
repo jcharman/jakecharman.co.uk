@@ -115,7 +115,7 @@ def category(category_id: str) -> str:
                            description=the_category['long_description'],
                            page_title=f'{the_category["title"]} - ',
                            all_categories=categories,
-                           current_category=category)
+                           current_category=category_id)
 
 @app.route('/projects/<article_id>')
 def article(article_id: str) -> str:
