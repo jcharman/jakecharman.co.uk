@@ -214,4 +214,5 @@ label{
 #article>p>img{
     display: block;
     margin: 0 auto 0 auto;
+    max-width: 100%;
 }
