@@ -81,7 +81,7 @@ def projects() -> str:
                            all_categories=categories,
                            title='Projects',
                            page_title='Projects - ',
-                           description='A selection of projects I\'ve been involved in1')
+                           description='A selection of projects I\'ve been involved in')
 
 @app.route('/projects/category/<category_id>/')
 def category(category_id: str) -> str:
