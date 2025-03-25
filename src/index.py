@@ -5,7 +5,7 @@ from os import environ
 import threading
 import logging
 from requests import post
-from flask import Flask, render_template
+from flask import Flask, render_template, Response
 
 app = Flask(__name__)
 
@@ -53,6 +53,12 @@ def index() -> str:
 @app.route('/error/<code>')
 def error(code) -> str:
     ''' Render a nicer error page for a given code '''
+
+    if not code.isDigit():
+        code=400
+    elif code not in error_definitions:
+        return Response(code)
+
     error_definitions = {
         400: 'Bad Request',
         403: 'Forbidden',
