@@ -76,7 +76,7 @@ def error(code) -> str:
     if not code.isdigit():
         code=400
     elif code not in error_definitions:
-        return Response(code)
+        return Response(status=code)
 
     return render_template('error.html',
                            error=f'{code}: {error_definitions.get(int(code))}',
