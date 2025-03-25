@@ -54,11 +54,6 @@ def index() -> str:
 def error(code) -> str:
     ''' Render a nicer error page for a given code '''
 
-    if not code.isDigit():
-        code=400
-    elif code not in error_definitions:
-        return Response(code)
-
     error_definitions = {
         400: 'Bad Request',
         403: 'Forbidden',
@@ -77,6 +72,11 @@ def error(code) -> str:
         503: 'My website is experiencing some issues and will be back shortly.',
         505: 'Your browser tried to use a HTTP version I don\'t support. Check it is up to date.'
     }
+
+    if not code.isdigit():
+        code=400
+    elif code not in error_definitions:
+        return Response(code)
 
     return render_template('error.html',
                            error=f'{code}: {error_definitions.get(int(code))}',
