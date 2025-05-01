@@ -30,7 +30,7 @@ pipeline {
             }
             steps {
                 git branch: 'master',
-                    credentialsId: 'jenkins',
+                    credentialsId: 'Git',
                     url: 'git@git.jakecharman.co.uk:jake/jc-ng.git'
 
                 sh "./build.sh registry.jakecharman.co.uk/jakecharman.co.uk $BUILD_NUMBER"
@@ -74,7 +74,7 @@ pipeline {
             steps {
                 node('web-staging') {
                     git branch: 'master',
-                        credentialsId: 'jenkins',
+                        credentialsId: 'Git',
                         url: 'git@git.jakecharman.co.uk:jake/jc-content.git'
                     sh "rsync -rv --delete ./ /opt/containers/jc/projects/"
                 }
@@ -115,7 +115,7 @@ pipeline {
             steps {
                 node('web-server') {
                     git branch: 'master',
-                        credentialsId: 'jenkins',
+                        credentialsId: 'Git',
                         url: 'git@git.jakecharman.co.uk:jake/jc-content.git'
                     sh "rsync -rv --delete ./ /opt/containers/jc/projects/"
                 }
