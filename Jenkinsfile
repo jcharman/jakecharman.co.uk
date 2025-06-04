@@ -39,9 +39,11 @@ pipeline {
 
         stage('Security scan') {
             steps {
-                sh "docker run --name sectest registry.jakecharman.co.uk/jakecharman.co.uk:$BUILD_NUMBER"
+                sh "docker run -d --name sectest registry.jakecharman.co.uk/jakecharman.co.uk:$BUILD_NUMBER"
                 sh "docker exec sectest pip3 install pip-audit"
                 sh "docker exec sectest pip-audit"
+                sh "docker stop sectest"
+                sh "docker rm sectest"
             }
         }
 
