@@ -218,7 +218,7 @@ label{
 }
 
 pre{
-    overflow: scroll;
+    overflow-x: auto;
     background-color: #36332f;
     padding: 10px;
 }
