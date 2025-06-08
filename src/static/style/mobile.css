@@ -13,13 +13,13 @@ h1, h2, h3{
 }
 
 header{
-    background-color: 4c4c4c;
+    background-color: #4c4c4c;
     height: 25vh;
     width: 100%;
 }
 
 footer{
-    background-color: 4c4c4c;
+    background-color: #4c4c4c;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -215,4 +215,10 @@ label{
     display: block;
     margin: 0 auto 0 auto;
     max-width: 100%;
+}
+
+pre{
+    overflow: scroll;
+    background-color: #36332f;
+    padding: 10px;
 }
