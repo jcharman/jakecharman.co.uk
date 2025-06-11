@@ -1,10 +1,11 @@
-FROM httpd:2.4 
+FROM python:3.13-bookworm
 RUN apt-get update
-RUN apt-get -y install libapache2-mod-wsgi-py3 python3 python3-pip
+RUN apt-get -y install apache2 apache2-dev
 COPY src/requirements.txt /var/www/jc/requirements.txt
-RUN pip3 install --upgrade pip --break-system-packages
-RUN pip3 freeze | sed 's/==.*//' #| xargs pip3 install --upgrade --break-system-packages
-RUN pip3 install  -r /var/www/jc/requirements.txt || pip3 install --break-system-packages -r /var/www/jc/requirements.txt
-COPY --chown=www-data:www-data config/httpd.conf /usr/local/apache2/conf/httpd.conf
+RUN /usr/local/bin/pip3 install --upgrade pip
+RUN /usr/local/bin/pip3 install  -r /var/www/jc/requirements.txt
+COPY --chown=www-data:www-data config/httpd.conf /etc/apache2/apache2.conf
 COPY --chown=www-data:www-data src/ /var/www/jc
-RUN httpd -t
+RUN apache2 -t
+EXPOSE 80
+ENTRYPOINT ["apache2", "-D", "FOREGROUND"]
