@@ -28,6 +28,7 @@ def sitemap():
     date = get_build_date()
     root = ET.Element('urlset', xmlns='http://www.sitemaps.org/schemas/sitemap/0.9')
     base_url = match(r'^https?:\/\/.+:?\d*(?=\/)', request.base_url).group()
+    base_url = base_url.replace('http://', 'https://')
     for route in get_routes():
         url = ET.SubElement(root, 'url')
         ET.SubElement(url, 'loc').text = base_url + route
