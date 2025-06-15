@@ -12,6 +12,7 @@ app = Flask(__name__)
 # These imports need to come after our app is defined as they add routes to it.
 import projects # pylint: disable=wrong-import-position,unused-import
 import contact  # pylint: disable=wrong-import-position,unused-import
+import sitemap  # pylint: disable=wrong-import-position,unused-import
 
 class DiscordLogger(logging.Handler):
     ''' Simple logging handler to send a message to Discord '''

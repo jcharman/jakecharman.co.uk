@@ -45,7 +45,7 @@ def to_html(content: str) -> str:
     ''' Jninja filter to wrap markdown '''
     return markdown(content)
 
-def get_all_posts(directory: str) -> list:
+def get_all_posts(directory: str = md_directory) -> list:
     ''' Get all posts in the posts directory '''
     abs_paths = [path.join(directory, x) for x in glob(f'{directory}/*.md')]
     return [frontmatter.load(x) for x in abs_paths]
