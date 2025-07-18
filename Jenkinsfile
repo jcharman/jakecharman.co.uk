@@ -50,7 +50,7 @@ pipeline {
             }
         }
 
-        stage('Push to registry') {
+        stage('Push to local registry') {
             when {
                 expression { 
                    return params.Build == true
@@ -59,7 +59,6 @@ pipeline {
             steps {
                 sh "docker push git.jakecharman.co.uk/jake/jakecharman.co.uk:$BUILD_NUMBER"
                 sh "docker push git.jakecharman.co.uk/jake/jakecharman.co.uk:latest"
-                sh "docker push europe-west2-docker.pkg.dev/jakecharman/web/jakecharman.co.uk:latest"
             }
         }
 
@@ -103,20 +102,25 @@ pipeline {
             }
         }
 
-        stage('Deploy to production server') {
+        stage('Push to GCP registry') {
+            when {
+                expression { 
+                   return params.Build == true
+                }
+            }
+            steps {
+                sh "docker push europe-west2-docker.pkg.dev/jakecharman/web/jakecharman.co.uk:latest"
+            }
+        }
+
+        stage('Deploy to production') {
             when {
                 expression { 
                    return params.Deploy == true
                 }
             }
             steps{
-                node('web-server') {
-                    sh "docker pull git.jakecharman.co.uk/jake/jakecharman.co.uk:latest"
-                    sh "docker stop jake || true"
-                    sh "docker rm jake || true"
-                    sh "docker run --name jake -e DISCORD_ERR_HOOK=$DISCORD_ERR_PROD -e DISCORD_WEBHOOK=$DISCORD -e TURNSTILE_SECRET=$TS --restart always --network containers_default -v /opt/containers/jc/projects/:/var/www/jc/projects/ -d git.jakecharman.co.uk/jake/jakecharman.co.uk:latest"
-                    sh "/home/jenkins/clearCFCache/clearCache.py a514fb61e1413b88aabbb19df16b8508"
-                }
+                sh "gcloud run deploy jakecharamn-co-uk --image europe-west2-docker.pkg.dev/jakecharman/web/jakecharman.co.uk:latest"
             }
         }
 
@@ -127,12 +131,10 @@ pipeline {
                 }
             }
             steps {
-                node('web-server') {
-                    git branch: 'master',
-                        credentialsId: 'Git',
-                        url: 'git@git.jakecharman.co.uk:jake/jc-content.git'
-                    sh "rsync -rv --delete ./ /opt/containers/jc/projects/"
-                }
+                git branch: 'master',
+                    credentialsId: 'Git',
+                    url: 'git@git.jakecharman.co.uk:jake/jc-content.git'
+                sh "gsutil rsync -rd . gs://jakecharman.co.uk"
             }
         }
     }
