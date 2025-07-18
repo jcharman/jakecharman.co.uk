@@ -120,7 +120,7 @@ pipeline {
                 }
             }
             steps{
-                sh "gcloud run deploy --project jakecharman jakecharamn-co-uk --image europe-west2-docker.pkg.dev/jakecharman/web/jakecharman.co.uk:latest"
+                sh "gcloud run deploy --project jakecharman --region europe-west1 --image europe-west2-docker.pkg.dev/jakecharman/web/jakecharman.co.uk:latest jakecharman-co-uk"
             }
         }
 
