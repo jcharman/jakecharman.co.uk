@@ -16,7 +16,8 @@ def validate_turnstile(response: str, ip: str) -> bool:
             'response': response,
             'remoteip': ip,
             'idempotency_key': uuid4()
-        }
+        },
+        timeout=30
     ).json()
 
     return cf_response.get('success', False)
@@ -24,7 +25,8 @@ def validate_turnstile(response: str, ip: str) -> bool:
 def send_to_discord(form: dict) -> bool:
     try:
         discord_hook = environ['DISCORD_WEBHOOK']
-    except:
+    except KeyError as e:
+        app.logger.error(e.with_traceback())
         return False
     discord_msg = dedent(
         f'''
@@ -42,11 +44,12 @@ def send_to_discord(form: dict) -> bool:
         data={
         'username': form.get('name'),
         'content': discord_msg
-        }
-    ).status_code
-
-    if discord_response == 204:
+        },
+        timeout=30
+    )
+    if discord_response.status_code == 204:
         return True
+    app.logger.error(discord_response.status_code, discord_response.text)
     return False
 
 @app.route('/contact/', methods=('GET', 'POST'))
