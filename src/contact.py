@@ -6,7 +6,7 @@ from flask import request, render_template
 from requests import post, get
 from uuid import uuid4
 from textwrap import dedent
-
+from traceback import format_exc
 def validate_turnstile(response: str, ip: str) -> bool:
     turnstile_secret = environ['TURNSTILE_SECRET']
     cf_response = post(
@@ -25,8 +25,8 @@ def validate_turnstile(response: str, ip: str) -> bool:
 def send_to_discord(form: dict) -> bool:
     try:
         discord_hook = environ['DISCORD_WEBHOOK']
-    except KeyError as e:
-        app.logger.error(e.with_traceback())
+    except KeyError:
+        app.logger.error(format_exc())
         return False
     discord_msg = dedent(
         f'''
