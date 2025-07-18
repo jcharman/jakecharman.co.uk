@@ -33,7 +33,7 @@ pipeline {
                     credentialsId: 'Git',
                     url: 'git@git.jakecharman.co.uk:jake/jc-ng.git'
 
-                sh "./build.sh registry.jakecharman.co.uk/jakecharman.co.uk $BUILD_NUMBER"
+                sh "./build.sh git.jakecharman.co.uk/jake/jakecharman.co.uk $BUILD_NUMBER"
             }
         }
 
@@ -41,7 +41,7 @@ pipeline {
             steps {
                 sh "docker kill sectest || true"
                 sh "docker rm sectest || true"
-                sh "docker run -d --name sectest registry.jakecharman.co.uk/jakecharman.co.uk:$BUILD_NUMBER"
+                sh "docker run -d --name sectest git.jakecharman.co.uk/jake/jakecharman.co.uk:$BUILD_NUMBER"
                 sh "docker exec sectest pip3 install pip-audit --break-system-packages"
                 sh "docker exec sectest pip-audit"
                 sh "docker stop sectest"
@@ -56,8 +56,8 @@ pipeline {
                 }
             }
             steps {
-                sh "docker push registry.jakecharman.co.uk/jakecharman.co.uk:$BUILD_NUMBER"
-                sh "docker push registry.jakecharman.co.uk/jakecharman.co.uk:latest"
+                sh "docker push git.jakecharman.co.uk/jake/jakecharman.co.uk:$BUILD_NUMBER"
+                sh "docker push git.jakecharman.co.uk/jake/jakecharman.co.uk:latest"
             }
         }
 
@@ -69,10 +69,10 @@ pipeline {
             }
             steps{
                 node('web-staging') {
-                    sh "docker pull registry.jakecharman.co.uk/jakecharman.co.uk:latest"
+                    sh "docker pull git.jakecharman.co.uk/jake/jakecharman.co.uk:latest"
                     sh "docker stop jake || true"
                     sh "docker rm jake || true"
-                    sh "docker run --name jake -e DISCORD_ERR_HOOK=$DISCORD_ERR_STAGING -e DISCORD_WEBHOOK=$DISCORD -e TURNSTILE_SECRET=$TS --restart always --network containers_default -v /opt/containers/jc/projects/:/var/www/jc/projects/ -d registry.jakecharman.co.uk/jakecharman.co.uk:latest"
+                    sh "docker run --name jake -e DISCORD_ERR_HOOK=$DISCORD_ERR_STAGING -e DISCORD_WEBHOOK=$DISCORD -e TURNSTILE_SECRET=$TS --restart always --network containers_default -v /opt/containers/jc/projects/:/var/www/jc/projects/ -d git.jakecharman.co.uk/jake/jakecharman.co.uk:latest"
                 }
             }
         }
@@ -109,10 +109,10 @@ pipeline {
             }
             steps{
                 node('web-server') {
-                    sh "docker pull registry.jakecharman.co.uk/jakecharman.co.uk:latest"
+                    sh "docker pull git.jakecharman.co.uk/jake/jakecharman.co.uk:latest"
                     sh "docker stop jake || true"
                     sh "docker rm jake || true"
-                    sh "docker run --name jake -e DISCORD_ERR_HOOK=$DISCORD_ERR_PROD -e DISCORD_WEBHOOK=$DISCORD -e TURNSTILE_SECRET=$TS --restart always --network containers_default -v /opt/containers/jc/projects/:/var/www/jc/projects/ -d registry.jakecharman.co.uk/jakecharman.co.uk:latest"
+                    sh "docker run --name jake -e DISCORD_ERR_HOOK=$DISCORD_ERR_PROD -e DISCORD_WEBHOOK=$DISCORD -e TURNSTILE_SECRET=$TS --restart always --network containers_default -v /opt/containers/jc/projects/:/var/www/jc/projects/ -d git.jakecharman.co.uk/jake/jakecharman.co.uk:latest"
                     sh "/home/jenkins/clearCFCache/clearCache.py a514fb61e1413b88aabbb19df16b8508"
                 }
             }
