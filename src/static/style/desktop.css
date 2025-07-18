@@ -67,4 +67,8 @@
     #article>p>img{
         display: inline;
     }
+
+    #certs>a {
+        max-width: 15%;
+    }
 }
