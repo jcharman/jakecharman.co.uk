@@ -222,3 +222,18 @@ pre{
     background-color: #36332f;
     padding: 10px;
 }
+
+#certs {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+#certs>a {
+    max-width: 25%;
+}
+
+#certs>a>img {
+    width: 100%;
+}
