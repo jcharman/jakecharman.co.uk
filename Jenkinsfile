@@ -134,7 +134,13 @@ pipeline {
                 git branch: 'master',
                     credentialsId: 'Git',
                     url: 'git@git.jakecharman.co.uk:jake/jc-content.git'
-                sh "gsutil rsync -rd . gs://jakecharman.co.uk"
+                sh "gsutil rsync -rcd . gs://jakecharman.co.uk"
+            }
+        }
+
+        stage('Clear cache') {
+            steps{
+                sh "/var/lib/jenkins/clearCFCache/clearCache.py a514fb61e1413b88aabbb19df16b8508"
             }
         }
     }
