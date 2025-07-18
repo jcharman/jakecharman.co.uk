@@ -34,6 +34,7 @@ pipeline {
                     url: 'git@git.jakecharman.co.uk:jake/jc-ng.git'
 
                 sh "./build.sh git.jakecharman.co.uk/jake/jakecharman.co.uk $BUILD_NUMBER"
+                sh "./build.sh europe-west2-docker.pkg.dev/jakecharman/web/jakecharman.co.uk $BUILD_NUMBER"
             }
         }
 
@@ -58,6 +59,7 @@ pipeline {
             steps {
                 sh "docker push git.jakecharman.co.uk/jake/jakecharman.co.uk:$BUILD_NUMBER"
                 sh "docker push git.jakecharman.co.uk/jake/jakecharman.co.uk:latest"
+                sh "docker push europe-west2-docker.pkg.dev/jakecharman/web/jakecharman.co.uk:latest"
             }
         }
 
