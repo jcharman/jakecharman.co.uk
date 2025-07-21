@@ -1,7 +1,7 @@
 @media (min-width: 1000px) {
     #technology{
         background-position-x: 35vw;
-        height: 75vh;
+        height: fit-content;
         min-height: 75vh;
     }
 
@@ -9,14 +9,16 @@
         background-position-y: -180px;
         background-position-x: -200px;
         background-size: auto;
+        height: fit-content;
         min-height: 75vh;
-        height: 75vh;
     }
 
     .text{
         width: 50%;
         height: 100%;
         align-items: flex-start;
+        height: fit-content;
+        min-height: 75vh
     }
 
     .text-right{
@@ -27,6 +29,13 @@
     .text-left{
         margin-left: 0;
         margin-right: auto;
+    }
+
+    .gradient {
+        display: flex;
+        align-items: flex-end;
+        background-image: linear-gradient(to top, rgba(23, 22, 20, 1) 70%, rgba(23, 22, 20, 0));
+        min-height: 75vh;
     }
 
     .gradient-left{
@@ -70,5 +79,17 @@
 
     #certs>a {
         max-width: 15%;
+    }
+
+    #techlogos {
+        max-height: 40%;
+    }
+
+    #techlogos>a{
+        max-width: 5%;
+    }
+
+    .spacer {
+        display: none;
     }
 }
