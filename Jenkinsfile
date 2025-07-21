@@ -39,6 +39,11 @@ pipeline {
         }
 
         stage('Security scan') {
+            when {
+                expression { 
+                   return params.Build == true
+                }
+            }
             steps {
                 sh "docker kill sectest || true"
                 sh "docker rm sectest || true"
