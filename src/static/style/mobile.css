@@ -259,3 +259,8 @@ pre{
     width: 100%;
     background-image: linear-gradient(to top, rgba(23, 22, 20, 1) 10%, rgba(23, 22, 20, 0));
 }
+
+.yt {
+    width: 100%;
+    height: 22vh;
+}

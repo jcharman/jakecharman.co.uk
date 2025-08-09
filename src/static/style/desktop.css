@@ -93,4 +93,9 @@
     .spacer {
         display: none;
     }
+
+    .yt {
+        width: 74%;
+        height: 40vh;
+    }
 }
