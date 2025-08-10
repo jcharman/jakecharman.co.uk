@@ -98,4 +98,15 @@
         width: 74%;
         height: 40vh;
     }
+
+    .gallery {
+        display: flex;
+        height: 35vh;
+        padding: 10px 0;
+    }
+
+    .gallery * {
+        height: inherit !important;
+        padding: 0 20px;
+    }
 }
