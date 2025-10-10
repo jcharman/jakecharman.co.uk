@@ -212,6 +212,7 @@ label{
 
 #article{
     padding: 0 10px 0 10px;
+    margin-bottom: 25px;
 }
 
 #article>p>img{
@@ -222,6 +223,7 @@ label{
 }
 
 #article>video{
+    display: block;
     margin: 0 auto 0 auto;
     max-width: 100%;
     max-height: 50vh;
