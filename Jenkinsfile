@@ -44,14 +44,20 @@ pipeline {
                    return params.Build == true
                 }
             }
-            steps {
-                sh "docker kill sectest || true"
-                sh "docker rm sectest || true"
-                sh "docker run -d --name sectest git.jakecharman.co.uk/jake/jakecharman.co.uk:$BUILD_NUMBER"
-                sh "docker exec sectest pip3 install pip-audit --break-system-packages"
-                sh "docker exec sectest pip-audit"
-                sh "docker stop sectest"
-                sh "docker rm sectest"
+            try{
+                steps {
+                    sh "docker kill sectest || true"
+                    sh "docker rm sectest || true"
+                    sh "docker run -d --name sectest git.jakecharman.co.uk/jake/jakecharman.co.uk:$BUILD_NUMBER"
+                    sh "docker exec sectest pip3 install pip-audit --break-system-packages"
+                    sh "docker exec sectest pip-audit"
+                    sh "docker stop sectest"
+                    sh "docker rm sectest"
+                }
+            }
+            catch(e) {
+                build_ok = false
+                echo e.toString()
             }
         }
 
