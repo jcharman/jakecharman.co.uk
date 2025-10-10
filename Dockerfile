@@ -1,4 +1,4 @@
-FROM python:3.13-bookworm
+FROM python:3.14-bookworm
 RUN apt-get update
 RUN apt-get -y install apache2 apache2-dev
 COPY src/requirements.txt /var/www/jc/requirements.txt
