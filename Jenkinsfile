@@ -38,14 +38,14 @@ pipeline {
             }
         }
 
-        try{
-            stage('Security scan') {
-                when {
-                    expression { 
-                    return params.Build == true
-                    }
+        stage('Security scan') {
+            when {
+                expression { 
+                return params.Build == true
                 }
-                steps {
+            }
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     sh "docker kill sectest || true"
                     sh "docker rm sectest || true"
                     sh "docker run -d --name sectest git.jakecharman.co.uk/jake/jakecharman.co.uk:$BUILD_NUMBER"
@@ -55,10 +55,6 @@ pipeline {
                     sh "docker rm sectest"
                 }
             }
-        }
-        catch(e) {
-            build_ok = false
-            echo e.toString()
         }
 
         stage('Push to local registry') {
