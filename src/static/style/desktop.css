@@ -77,6 +77,9 @@
     #article>p>img{
         display: inline;
     }
+    #article>video{
+        display: inline;
+    }
 
     #certs>a {
         max-width: 15%;
