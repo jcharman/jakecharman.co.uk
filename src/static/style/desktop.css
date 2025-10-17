@@ -48,7 +48,7 @@
     }
 
     #projects{
-        align-items: center;
+        align-items: stretch;
         justify-content: center;
         flex-direction: row;
         flex-wrap: wrap;
@@ -58,7 +58,6 @@
     
     .project{
         width: 20vw;
-        height: 25vw;
     }
 
     #top-nav{
@@ -98,18 +97,21 @@
     }
 
     .yt {
-        width: 74%;
-        height: 40vh;
+        width: calc(66% - 40px);
+        min-height: 100%;
     }
 
     .gallery {
         display: flex;
-        height: 35vh;
+        height: fit-content;
         padding: 10px 0;
     }
 
     .gallery * {
-        height: inherit !important;
         padding: 0 20px;
+    }
+
+    .gallery>img {
+        width: calc(33% - 40px);
     }
 }
