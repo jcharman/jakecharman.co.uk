@@ -10,9 +10,10 @@ from flask import Flask, render_template, Response
 app = Flask(__name__)
 
 # These imports need to come after our app is defined as they add routes to it.
+import sitemap  # pylint: disable=wrong-import-position,unused-import
 import projects # pylint: disable=wrong-import-position,unused-import
 import contact  # pylint: disable=wrong-import-position,unused-import
-import sitemap  # pylint: disable=wrong-import-position,unused-import
+import comments  # pylint: disable=wrong-import-position,unused-import
 
 class DiscordLogger(logging.Handler):
     ''' Simple logging handler to send a message to Discord '''
@@ -82,3 +83,6 @@ def error(code) -> str:
     return render_template('error.html',
                            error=f'{code}: {error_definitions.get(int(code))}',
                            description=error_desc.get(int(code)))
+
+if __name__ == '__main__':
+    app.run()
