@@ -151,6 +151,9 @@ def image(image_name: str) -> Response:
 
     if (w >= max_width and h >= max_height):
         return send_from_directory(md_directory, path.join('images', image_name))
+    
+    if path.exists(path.join('images', f'{w}-{h}-{image_name}')):
+        return send_from_directory(md_directory, path.join('images', f'{w}-{h}-{image_name}'))
 
     req_size = [max_width, max_height]
     if w > 0:
@@ -161,6 +164,7 @@ def image(image_name: str) -> Response:
     resized_img = BytesIO()
     the_image.thumbnail(tuple(req_size))
     the_image.save(resized_img, format=the_image.format)
+    the_image.save(path.join(md_directory, 'images', f'{w}-{h}-{image_name}'), the_image.format)
 
     response = make_response(resized_img.getvalue())
     response.headers.set('Content-Type', f'image/{the_image.format}')
