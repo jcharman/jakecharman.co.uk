@@ -4,15 +4,27 @@ import traceback
 from os import environ
 import threading
 import logging
+import xml.etree.ElementTree as ET
+from os import path
+from re import match
+import json
 from requests import post
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, url_for, request
+from .content import ContentArea
+from .contact import ContactForm
+from .storage import LocalStorage
 
 app = Flask(__name__)
 
-# These imports need to come after our app is defined as they add routes to it.
-import projects # pylint: disable=wrong-import-position,unused-import
-import contact  # pylint: disable=wrong-import-position,unused-import
-import sitemap  # pylint: disable=wrong-import-position,unused-import
+md_path = path.join(path.realpath(path.dirname(__file__)), path.normpath('../projects/'))
+
+projects = ContentArea(
+    directory=LocalStorage(md_path),
+    name='projects',
+    import_name=__name__)
+
+app.register_blueprint(projects, url_prefix='/projects')
+app.register_blueprint(ContactForm('contact', __name__), url_prefix='/contact')
 
 class DiscordLogger(logging.Handler):
     ''' Simple logging handler to send a message to Discord '''
@@ -82,3 +94,41 @@ def error(code) -> str:
     return render_template('error.html',
                            error=f'{code}: {error_definitions.get(int(code))}',
                            description=error_desc.get(int(code)))
+
+def get_routes() -> list:
+    ''' Get a list of all routes that make up the app '''
+    routes = []
+    for rule in app.url_map.iter_rules():
+        if 0 >= len(rule.arguments):
+            url = url_for(rule.endpoint, **(rule.defaults or {}))
+            routes.append(url)
+    return routes
+
+def get_build_date():
+    ''' Get the build date of the Docker container we're running in '''
+    try:
+        with open('/var/www/jc/.buildinfo.json', encoding='utf8') as build:
+            build_json = json.load(build)
+            return build_json['date']
+    except Exception: # pylint: disable=broad-exception-caught
+        return '1970-01-01'
+
+@app.route('/sitemap.xml')
+def sitemap():
+    ''' Return an XML site map '''
+    date = get_build_date()
+    root = ET.Element('urlset', xmlns='http://www.sitemaps.org/schemas/sitemap/0.9')
+    base_url = match(r'^https?:\/\/.+:?\d*(?=\/)', request.base_url).group()
+    base_url = base_url.replace('http://', 'https://')
+    for route in get_routes():
+        url = ET.SubElement(root, 'url')
+        ET.SubElement(url, 'loc').text = base_url + route
+        ET.SubElement(url, 'lastmod').text = date
+    for article in projects.get_all_posts():
+        if 'link' in article.metadata:
+            continue
+        url = ET.SubElement(root, 'url')
+        ET.SubElement(url, 'loc').text = f'{base_url}/projects/{article.metadata['id']}'
+        ET.SubElement(url, 'lastmod').text = article.metadata['date'].strftime('%Y-%m-%d')
+
+    return Response(ET.tostring(root, encoding='utf-8'), 200, {'content-type': 'application/xml'})
