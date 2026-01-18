@@ -6,6 +6,7 @@ import threading
 import logging
 import xml.etree.ElementTree as ET
 from os import path
+from urllib.parse import urlsplit
 from re import match
 import json
 from requests import post
@@ -57,6 +58,18 @@ class DiscordLogger(logging.Handler):
 
 discord_logger = DiscordLogger(environ['DISCORD_ERR_HOOK'])
 app.logger.addHandler(discord_logger)
+
+@app.context_processor
+def inject_branding() -> dict:
+    ''' Modify branding depending on the URL being used '''
+    req_domain = urlsplit(request.base_url).netloc.lower()
+    match req_domain:
+        case 'jakecharman.co.uk':
+            brand = 'Jake Charman'
+        case _:
+            brand = req_domain
+    
+    return {'branding': brand}
 
 @app.route('/')
 def index() -> str:
