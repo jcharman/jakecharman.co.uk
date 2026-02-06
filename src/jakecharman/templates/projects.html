@@ -24,14 +24,14 @@
                 <img class="project-thumb" 
                 srcset="
                     {% for i in range(200, 5100, 100) %}
-                        /projects/image/{{ row.image }}?w={{i}} {{i}}w{{"," if not loop.last}}
+                        /image/{{ row.image }}?w={{i}} {{i}}w{{"," if not loop.last}}
                     {% endfor %}
                     "
                     sizes="
                         (max-width: 999px) 80vw,
                         (min-width: 1000px) 20vw
                     "
-                src="/projects/image/{{ row.image }}">
+                src="/image/{{ row.image }}">
             </a>
             <div class="project-text">
                 {% if row.get('link') is not none %}

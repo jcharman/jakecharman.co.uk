@@ -1,0 +1,28 @@
+{% include 'header.html' %}
+<main id="links-main">
+    <h2>Useful Links</h2>
+    <section id="links">
+        {% for link in links %}
+        <div class="link">
+            {% if link.get('img') is not none %}
+            <a href="{{link.src}}" target="_blank"></a>
+                <img class="link-thumb" 
+                    srcset="
+                        {% for i in range(200, 5100, 100) %}
+                            /image/{{ link.img }}?w={{i}} {{i}}w{{"," if not loop.last}}
+                        {% endfor %}
+                        "
+                        sizes="
+                            (max-width: 999px) 80vw,
+                            (min-width: 1000px) 20vw
+                        "
+                    src="/image/{{ link.img }}">
+            </a>
+                {% endif %}
+            <a href="{{link.src}}" target="_blank"><h3>{{ link.title }}</h3></a>
+            <p>{{ link.description }}</p>
+        </div>
+        {% endfor %}
+    </section>
+</main>
+{% include 'footer.html' %}

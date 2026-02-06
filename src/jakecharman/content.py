@@ -3,12 +3,10 @@
 from os import path
 import json
 from datetime import datetime
-from io import BytesIO
-from PIL import Image, UnidentifiedImageError
 import frontmatter
 from markdown import markdown
 from bs4 import BeautifulSoup
-from flask import render_template, Response, send_from_directory, request, make_response, Blueprint
+from flask import render_template, Response, Blueprint
 from .storage import LocalStorage
 
 class ContentArea(Blueprint):
@@ -26,7 +24,7 @@ class ContentArea(Blueprint):
         self.add_url_rule('/', view_func=self.projects)
         self.add_url_rule('/category/<category_id>/', view_func=self.category)
         self.add_url_rule('/<article_id>', view_func=self.article)
-        self.add_url_rule('/image/<image_name>', view_func=self.image)
+        #self.add_url_rule('/image/<image_name>', view_func=self.image)
 
     def processor(self) -> dict:
         ''' Jninja processors '''
@@ -141,40 +139,3 @@ class ContentArea(Blueprint):
         return render_template('article.html', post=markdown(the_article.content),
                             metadata=the_article.metadata,
                             page_title=f'{the_article.metadata["title"]} - ')
-
-    def image(self, image_name: str) -> Response:
-        ''' Resize and return an image. '''
-        w = int(request.args.get('w', 0))
-        h = int(request.args.get('h', 0))
-
-        if w == 0 and h == 0:
-            return send_from_directory(self.md_directory.uri, path.join('images', image_name))
-        try:
-            the_image = Image.open(path.join(self.md_directory.uri, 'images', image_name))
-        except FileNotFoundError:
-            return Response(status=404)
-        except UnidentifiedImageError:
-            return send_from_directory(self.md_directory.uri, path.join('images', image_name))
-
-        max_width, max_height = the_image.size
-
-        if (w >= max_width and h >= max_height):
-            return send_from_directory(self.md_directory.uri, path.join('images', image_name))
-
-        if path.exists(path.join('images', f'{w}-{h}-{image_name}')):
-            return send_from_directory(self.md_directory.uri, path.join('images', f'{w}-{h}-{image_name}'))
-
-        req_size = [max_width, max_height]
-        if w > 0:
-            req_size[0] = w
-        if h > 0:
-            req_size[1] = h
-
-        resized_img = BytesIO()
-        the_image.thumbnail(tuple(req_size))
-        the_image.save(resized_img, format=the_image.format)
-        the_image.save(path.join(self.md_directory.uri, 'images', f'{w}-{h}-{image_name}'), the_image.format)
-
-        response = make_response(resized_img.getvalue())
-        response.headers.set('Content-Type', f'image/{the_image.format}')
-        return response

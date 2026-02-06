@@ -114,4 +114,12 @@
     .gallery>img {
         width: calc(33% - 40px);
     }
+
+    #links {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .link>a>h3 {
+        padding-top: 20px;
+    }
 }

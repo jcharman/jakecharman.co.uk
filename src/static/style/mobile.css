@@ -282,3 +282,23 @@ pre{
     padding: 10px;
     max-width: 80vw;
 }
+
+#links-main{
+    padding: 20px 10px 0 10px;
+    min-height: 65vh;
+}
+
+.link {
+    border-top: 1px solid #e5e5e5;
+}
+
+.link>img {
+    float: left;
+    padding-right: 20px;
+    max-width: 100px;
+}
+
+.link>a>h3 {
+    padding-top: 10px;
+    margin: 0
+}

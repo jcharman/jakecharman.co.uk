@@ -1,19 +1,21 @@
 #!/usr/bin/python3
 
 import traceback
-from os import environ
+from os import environ, path
 import threading
 import logging
 import xml.etree.ElementTree as ET
-from os import path
 from urllib.parse import urlsplit
 from re import match
 import json
+from io import BytesIO
 from requests import post
-from flask import Flask, render_template, Response, url_for, request
+from flask import Flask, render_template, Response, url_for, request, send_from_directory, make_response
+from PIL import Image, UnidentifiedImageError
 from .content import ContentArea
 from .contact import ContactForm
 from .storage import LocalStorage
+from .links import Links
 
 app = Flask(__name__)
 
@@ -26,6 +28,7 @@ projects = ContentArea(
 
 app.register_blueprint(projects, url_prefix='/projects')
 app.register_blueprint(ContactForm('contact', __name__), url_prefix='/contact')
+app.register_blueprint(Links(path.join(md_path, 'links.json'), 'links', __name__), url_prefix='/links')
 
 class DiscordLogger(logging.Handler):
     ''' Simple logging handler to send a message to Discord '''
@@ -145,3 +148,43 @@ def sitemap():
         ET.SubElement(url, 'lastmod').text = article.metadata['date'].strftime('%Y-%m-%d')
 
     return Response(ET.tostring(root, encoding='utf-8'), 200, {'content-type': 'application/xml'})
+
+@app.route('/image/<image_name>')
+def image( image_name: str) -> Response:
+    ''' Resize and return an image. '''
+    md_directory = LocalStorage(md_path)
+    
+    w = int(request.args.get('w', 0))
+    h = int(request.args.get('h', 0))
+
+    if w == 0 and h == 0:
+        return send_from_directory(md_directory.uri, path.join('images', image_name))
+    try:
+        the_image = Image.open(path.join(md_directory.uri, 'images', image_name))
+    except FileNotFoundError:
+        return Response(status=404)
+    except UnidentifiedImageError:
+        return send_from_directory(md_directory.uri, path.join('images', image_name))
+
+    max_width, max_height = the_image.size
+
+    if (w >= max_width and h >= max_height):
+        return send_from_directory(md_directory.uri, path.join('images', image_name))
+
+    if path.exists(path.join('images', f'{w}-{h}-{image_name}')):
+        return send_from_directory(md_directory.uri, path.join('images', f'{w}-{h}-{image_name}'))
+
+    req_size = [max_width, max_height]
+    if w > 0:
+        req_size[0] = w
+    if h > 0:
+        req_size[1] = h
+
+    resized_img = BytesIO()
+    the_image.thumbnail(tuple(req_size))
+    the_image.save(resized_img, format=the_image.format)
+    the_image.save(path.join(md_directory.uri, 'images', f'{w}-{h}-{image_name}'), the_image.format)
+
+    response = make_response(resized_img.getvalue())
+    response.headers.set('Content-Type', f'image/{the_image.format}')
+    return response
