@@ -28,6 +28,7 @@ footer{
     justify-content: center;
     align-items: center;
     height: 10vh;
+    clear: both;
 }
 
 #logo-container{
@@ -284,13 +285,14 @@ pre{
 }
 
 #links-main{
-    padding: 20px 10px 0 10px;
+    padding: 20px 10px 20px 10px;
     min-height: 65vh;
 }
 
 .link {
     border-top: 1px solid #e5e5e5;
     clear: both;
+    overflow: hidden;
 }
 
 .link>img {
@@ -306,4 +308,9 @@ pre{
 
 .category {
     padding-top: 10px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.category>h3 {
+    margin-bottom: 10px;
 }
