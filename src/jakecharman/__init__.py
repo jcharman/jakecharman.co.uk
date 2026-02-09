@@ -149,30 +149,16 @@ def sitemap():
 
     return Response(ET.tostring(root, encoding='utf-8'), 200, {'content-type': 'application/xml'})
 
-@app.route('/image/<image_name>')
-def image( image_name: str) -> Response:
-    ''' Resize and return an image. '''
+def resize_image(image_name: str, size: tuple):
+    w = size[0]
+    h = size[1]
+
     md_directory = LocalStorage(md_path)
-    
-    w = int(request.args.get('w', 0))
-    h = int(request.args.get('h', 0))
-
-    if w == 0 and h == 0:
-        return send_from_directory(md_directory.uri, path.join('images', image_name))
-    try:
-        the_image = Image.open(path.join(md_directory.uri, 'images', image_name))
-    except FileNotFoundError:
-        return Response(status=404)
-    except UnidentifiedImageError:
-        return send_from_directory(md_directory.uri, path.join('images', image_name))
-
+    the_image = Image.open(path.join(md_directory.uri, 'images', image_name))
     max_width, max_height = the_image.size
 
-    if (w >= max_width and h >= max_height):
-        return send_from_directory(md_directory.uri, path.join('images', image_name))
-
-    if path.exists(path.join('images', f'{w}-{h}-{image_name}')):
-        return send_from_directory(md_directory.uri, path.join('images', f'{w}-{h}-{image_name}'))
+    if path.exists(path.join(md_directory.uri, 'images', f'{w}-{h}-{image_name}')) or (w >= max_width and h >= max_height):
+        raise FileExistsError()
 
     req_size = [max_width, max_height]
     if w > 0:
@@ -185,6 +171,45 @@ def image( image_name: str) -> Response:
     the_image.save(resized_img, format=the_image.format)
     the_image.save(path.join(md_directory.uri, 'images', f'{w}-{h}-{image_name}'), the_image.format)
 
-    response = make_response(resized_img.getvalue())
-    response.headers.set('Content-Type', f'image/{the_image.format}')
-    return response
+@app.route('/image/<image_name>')
+def image( image_name: str) -> Response:
+    ''' Resize and return an image. '''
+    md_directory = LocalStorage(md_path)
+    
+    w = int(request.args.get('w', 0))
+    h = int(request.args.get('h', 0))
+
+    if w == 0 and h == 0:
+        return send_from_directory(md_directory.uri, path.join('images', image_name))
+    if path.exists(path.join(md_directory.uri, 'images', f'{w}-{h}-{image_name}')):
+        return send_from_directory(md_directory.uri, path.join('images', f'{w}-{h}-{image_name}'))
+    try:
+        resize_image(image_name, (w, h))
+    except FileNotFoundError:
+        return Response(status=404)
+    except UnidentifiedImageError:
+        return send_from_directory(md_directory.uri, path.join('images', image_name))
+    except FileExistsError:
+        return send_from_directory(md_directory.uri, path.join('images', image_name))
+
+    return send_from_directory(md_directory.uri, path.join('images', f'{w}-{h}-{image_name}'))
+
+@app.route('/image/thumb/<image_name>')
+def img_thumb(image_name: str):
+    ''' Flask route to load an image '''
+    md_directory = LocalStorage(md_path)
+    w = 400
+    h = 0
+    thumb_file = path.join(md_directory.uri, 'images', f'{w}-{h}-{image_name}')
+    if path.exists(thumb_file):
+        return send_from_directory(md_directory.uri, path.join('images', f'{w}-{h}-{image_name}'))
+    try:
+        resize_image(image_name, (w, h))
+    except FileNotFoundError:
+        return Response(status=404)
+    except UnidentifiedImageError:
+       return send_from_directory(md_directory.uri, path.join('images', image_name))
+    except FileExistsError:
+       return send_from_directory(md_directory.uri, path.join('images', f'{w}-{h}-{image_name}'))
+
+    return send_from_directory(md_directory.uri, path.join('images', f'{w}-{h}-{image_name}'))

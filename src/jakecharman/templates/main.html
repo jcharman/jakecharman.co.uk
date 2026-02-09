@@ -12,10 +12,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" type="image/x-icon" href="/static/images/jc.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.css" integrity="sha512-9NawOLzuLE2GD22PJ6IPWXEjPalb/FpdH1qMpgXdaDM+0OfxEV75ZCle6KhZi0vM6ZWvMrNnIZv6YnsL+keVmA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="/static/js/filter_projects.js"></script>
     <script src="/static/js/update_copyright.js"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6WMXXY0RL0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.min.js" integrity="sha512-lZD0JiwhtP4UkFD1mc96NiTZ14L7MjyX5Khk8PMxJszXMLvu7kjq1sp4bb0tcL6MY+/4sIuiUxubOqoueHrW4w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -23,6 +25,7 @@
 
         gtag('config', 'G-6WMXXY0RL0');
     </script>
+    {% block head %}{% endblock %}
 </head>
 <body>
     <header>

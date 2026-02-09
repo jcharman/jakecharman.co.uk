@@ -122,4 +122,10 @@
     .link>a>h3 {
         padding-top: 20px;
     }
+
+    .photo-gallery>img {
+        width: 20vw;
+        padding: 10px;
+        height: 14vw;
+    }
 }

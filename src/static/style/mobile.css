@@ -314,3 +314,18 @@ pre{
 .category>h3 {
     margin-bottom: 10px;
 }
+
+.photo-gallery {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.photo-gallery>img {
+    width: 45vw;
+    padding: 5px;
+    height:  31vw;
+    object-fit: cover;
+}

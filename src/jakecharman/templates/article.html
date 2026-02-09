@@ -1,5 +1,18 @@
 {% extends 'main.html' %}
 
+{% block head %}
+{% if metadata.gallery %}
+    <script>
+        document.addEventListener("DOMContentLoaded",function(){
+            post_gallery = new Viewer(document.getElementById('article'), {
+                'url': 'realsrc',
+                'title': false
+            });
+        });
+    </script>
+{% endif %}
+{% endblock %}
+
 {% block content %}
 <main>
     <section id="article">
