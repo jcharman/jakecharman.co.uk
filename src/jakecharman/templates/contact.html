@@ -1,4 +1,6 @@
-{% include 'header.html' %}
+{% extends 'main.html' %}
+
+{% block content %}
 <main id="contact-main">
     <h2>Contact Me</h2>
     <p>Got a question or want to talk about something on this site? Drop me a message below:</p>
@@ -17,4 +19,4 @@
         <p id="{{ 'contact-error' if error else 'contact-message' }}">{{ user_message }}</p>
     {% endif %}
 </main>
-{% include 'footer.html' %}
+{% endblock %}

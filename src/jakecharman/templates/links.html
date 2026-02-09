@@ -1,4 +1,6 @@
-{% include 'header.html' %}
+{% extends 'main.html' %}
+
+{% block content %}
 <main id="links-main">
     <h2>Useful Links</h2>
     <section id="links">
@@ -30,4 +32,4 @@
         {% endfor %}
     </section>
 </main>
-{% include 'footer.html' %}
+{% endblock %}

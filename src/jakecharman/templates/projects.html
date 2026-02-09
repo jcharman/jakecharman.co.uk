@@ -1,4 +1,6 @@
-{% include 'header.html' %}
+{% extends 'main.html' %}
+
+{% block content %}
 <main id="project-main">
     <nav id="filter">
         <label for="filter_category">Filter:</label>
@@ -51,4 +53,4 @@
         {% endfor %}
     </section>
 </main>
-{% include 'footer.html' %}
+{% endblock %}

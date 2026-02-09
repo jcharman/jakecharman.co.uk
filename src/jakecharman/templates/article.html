@@ -1,4 +1,6 @@
-{% include 'header.html' %}
+{% extends 'main.html' %}
+
+{% block content %}
 <main>
     <section id="article">
         <h1>{{ metadata.title}} </h1>
@@ -7,4 +9,4 @@
         {{post|safe}}
     </section>
 </main>
-{% include 'footer.html' %}
+{% endblock %}
