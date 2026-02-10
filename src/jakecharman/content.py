@@ -61,15 +61,19 @@ class ContentArea(Blueprint):
             with self.md_directory.open(p) as f:
                 posts.append(frontmatter.load(f))
         return posts
+    
+    def get_live_posts(self) -> list:
+        ''' Get all posts in the posts directory excluding ones with a date in the future '''
+        return [x for x in self.get_all_posts() if x.metadata.get('date') <= datetime.now().date()]
 
     def get_by_meta_key(self, key: str, value: str) -> list:
         ''' Get posts by a metadata key value pair '''
-        return [x for x in self.get_all_posts() if x.get(key) == value or isinstance(x.get(key, []), list) and value in x.get(key, [])]
+        return [x for x in self.get_live_posts() if x.get(key) == value or isinstance(x.get(key, []), list) and value in x.get(key, [])]
 
     def projects(self) -> str:
         ''' Load the projects page '''
         articles_to_return = sorted(
-            self.get_all_posts(),
+            self.get_live_posts(),
                 key=lambda d: d.metadata.get('date'),
                 reverse=True
             )
