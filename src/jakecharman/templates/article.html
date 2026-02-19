@@ -23,7 +23,7 @@
     </section>
 </main>
 <section id="comments">
-    <h2>{{comments | length}} Comments</h2>
+    <h2>{{comments | length}} Comment{% if comments | length != 1 %}s{% endif %}</h2>
     {% for comment in comments %}
     <div class="comment">
         <strong>{{ comment[0] }} - {{ comment[2] | human_date }}</strong>
