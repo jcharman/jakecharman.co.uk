@@ -329,3 +329,14 @@ pre{
     height:  31vw;
     object-fit: cover;
 }
+
+#comments {
+    border-top: 1px solid #e5e5e5;
+}
+
+.comment {
+    background-color: #4c4c4c;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 10px;
+}

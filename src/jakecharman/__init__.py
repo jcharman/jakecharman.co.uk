@@ -16,6 +16,7 @@ from .content import ContentArea
 from .contact import ContactForm
 from .storage import LocalStorage
 from .links import Links
+from .comments import *
 
 app = Flask(__name__)
 
@@ -29,6 +30,7 @@ projects = ContentArea(
 app.register_blueprint(projects, url_prefix='/projects')
 app.register_blueprint(ContactForm('contact', __name__), url_prefix='/contact')
 app.register_blueprint(Links(path.join(md_path, 'links.json'), 'links', __name__), url_prefix='/links')
+app.register_blueprint(Approval(path.join(projects.md_directory.uri, 'comments.db'), 'comments', __name__), url_prefix='/comments')
 
 class DiscordLogger(logging.Handler):
     ''' Simple logging handler to send a message to Discord '''
@@ -140,7 +142,7 @@ def sitemap():
         url = ET.SubElement(root, 'url')
         ET.SubElement(url, 'loc').text = base_url + route
         ET.SubElement(url, 'lastmod').text = date
-    for article in projects.get_all_posts():
+    for article in projects.get_live_posts():
         if 'link' in article.metadata:
             continue
         url = ET.SubElement(root, 'url')

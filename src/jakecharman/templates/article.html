@@ -22,4 +22,23 @@
         {{post|safe}}
     </section>
 </main>
+<section id="comments">
+    <h2>{{comments | length}} Comments</h2>
+    {% for comment in comments %}
+    <div class="comment">
+        <strong>{{ comment[0] }} - {{ comment[2] | human_date }}</strong>
+        <p>{{ comment[1] }}</p>
+    </div>
+    {% endfor %}
+    <h3>Leave a comment</h3>
+    {% if request.args.get('comment') is none %}
+        <form action="./{{metadata.id}}/comment" method="post">
+            <input type="text", name="name" placeholder="Name" required>
+            <textarea name="comment" placeholder="Comment" required></textarea>
+            <input type="submit" value="Submit">
+        </form>
+    {% else %}
+        <p>Thank you! Your comment will appear once it is approved</p>
+    {% endif %}
+</section>
 {% endblock %}

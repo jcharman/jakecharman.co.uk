@@ -1,0 +1,20 @@
+{% include 'header.html' %}
+<script src="/static/js/get_comments.js"></script>
+<main>
+    <section id="article">
+        <h1>{{ metadata.title}} </h1>
+        <p>{{ metadata.date | human_date }}</p>
+        <hr />
+        {{post|safe}}
+    </section>
+    <section id="comments">
+    </section>
+        <form action="/comments/{{ metadata.id }}" method="post">
+            <label for="name">Name:</label>
+            <input type="text" name="name" />
+            <label for="comment">Comment:</label>
+            <textarea name="comment"></textarea>
+            <input type="submit" name="submit" value="Submit">
+        </form>
+</main>
+{% include 'footer.html' %}

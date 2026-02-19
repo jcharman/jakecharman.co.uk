@@ -6,8 +6,9 @@ from datetime import datetime
 import frontmatter
 from markdown import markdown
 from bs4 import BeautifulSoup
-from flask import render_template, Response, Blueprint
+from flask import render_template, Response, Blueprint, request, redirect
 from .storage import LocalStorage
+from .comments import PostComments, Approval
 
 class ContentArea(Blueprint):
     def __init__(self, directory: LocalStorage, *args, **kwargs):
@@ -24,7 +25,7 @@ class ContentArea(Blueprint):
         self.add_url_rule('/', view_func=self.projects)
         self.add_url_rule('/category/<category_id>/', view_func=self.category)
         self.add_url_rule('/<article_id>', view_func=self.article)
-        #self.add_url_rule('/image/<image_name>', view_func=self.image)
+        self.add_url_rule('/<article_id>/comment', view_func=self.comment, methods=['POST'])
 
     def processor(self) -> dict:
         ''' Jninja processors '''
@@ -140,6 +141,16 @@ class ContentArea(Blueprint):
             return Response(status=500)
 
         the_article = articles[0]
+        
+        comments = PostComments(the_article.metadata['id'], path.join(self.md_directory.uri, 'comments.db')).comments
         return render_template('article.html', post=markdown(the_article.content),
                             metadata=the_article.metadata,
+                            comments = comments,
                             page_title=f'{the_article.metadata["title"]} - ')
+    
+    def comment(self, article_id: str):
+        PostComments(article_id, path.join(self.md_directory.uri, 'comments.db')).make_comment(
+            request.form['name'],
+            request.form['comment']
+        )
+        return redirect(f'/projects/{article_id}?comment=true#comments')
