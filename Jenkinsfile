@@ -33,7 +33,7 @@ pipeline {
                 git branch: 'master',
                     credentialsId: 'Git',
                     url: 'git@git.jakecharman.co.uk:jake/jc-ng.git'
-                sh "sed -i s/dummy/$NEWRELIC_KEY"
+                sh "sed -i s/dummy/$NEWRELIC_KEY/"
                 sh "./build.sh git.jakecharman.co.uk/jake/jakecharman.co.uk $BUILD_NUMBER"
                 sh "./build.sh europe-west2-docker.pkg.dev/jakecharman/web/jakecharman.co.uk $BUILD_NUMBER"
             }
