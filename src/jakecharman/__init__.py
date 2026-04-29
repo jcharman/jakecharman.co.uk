@@ -11,12 +11,14 @@ import json
 from io import BytesIO
 from requests import post
 from flask import Flask, render_template, Response, url_for, request, send_from_directory, make_response
+from newrelic import agent
 from PIL import Image, UnidentifiedImageError
 from .content import ContentArea
 from .contact import ContactForm
 from .storage import LocalStorage
 from .links import Links
 
+agent.initialize('/var/www/jc/newrelic.ini')
 app = Flask(__name__)
 
 md_path = path.join(path.realpath(path.dirname(__file__)), path.normpath('../projects/'))

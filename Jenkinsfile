@@ -6,6 +6,7 @@ pipeline {
         DISCORD = credentials('jc_discord')
         DISCORD_ERR_STAGING = credentials('jc_discord_err_staging')
         DISCORD_ERR_PROD = credentials('jc_discord_err_prod')
+        NEWRELIC_KEY = credentials('newrelic')
     }
 
     stages{
@@ -32,7 +33,7 @@ pipeline {
                 git branch: 'master',
                     credentialsId: 'Git',
                     url: 'git@git.jakecharman.co.uk:jake/jc-ng.git'
-
+                sh "sed -i s/dummy/$NEWRELIC_KEY"
                 sh "./build.sh git.jakecharman.co.uk/jake/jakecharman.co.uk $BUILD_NUMBER"
                 sh "./build.sh europe-west2-docker.pkg.dev/jakecharman/web/jakecharman.co.uk $BUILD_NUMBER"
             }
