@@ -99,6 +99,7 @@
     .yt {
         width: calc(66% - 40px);
         min-height: 100%;
+        height: auto;
     }
 
     .gallery {
