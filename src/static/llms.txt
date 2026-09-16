@@ -1,0 +1,10 @@
+# Jake Charman
+
+> Personal website of Jake Charman, a technology professional based in the UK,
+> covering distributed systems work and motorsport (Nitro Junkie Top Fuel drag racing).
+
+## Pages
+- [About](https://jakecharman.co.uk/): Background, technology stack, and motorsport involvement.
+- [Projects](https://jakecharman.co.uk/projects/): Write-ups of personal and professional projects.
+- [Links](https://jakecharman.co.uk/links/): Curated external links.
+- [Contact](https://jakecharman.co.uk/contact/): Contact form.
