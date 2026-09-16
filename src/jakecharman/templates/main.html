@@ -64,7 +64,7 @@
         </nav>
         <div id="logo-container">
             <div id="logo">
-                <a href='/'>{{branding|upper}}</a>
+                {% block logo %}<a href='/'>{{branding|upper}}</a>{% endblock %}
             </div>
         </div>
     </header>

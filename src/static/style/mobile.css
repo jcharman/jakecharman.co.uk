@@ -51,6 +51,10 @@ footer{
     font-style: normal;
     font-size: 2em;
 }
+#logo>a>h1{
+    font-size: 1em;
+}
+
 
 footer h2, section h2{
     margin: 0;
