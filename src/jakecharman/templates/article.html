@@ -1,5 +1,5 @@
 {% extends 'main.html' %}
-
+{% block description %}{{ metadata.description }}{% endblock %}
 {% block head %}
 {% if metadata.gallery %}
     <script>
@@ -11,6 +11,31 @@
         });
     </script>
 {% endif %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ metadata.title | tojson }},
+  "datePublished": "{{ metadata.date }}",
+  "image": "https://{{ url }}/image/{{ metadata.image }}",
+  "author": {
+    "@type": "Person",
+    "name": "Jake Charman",
+    "url": "https://{{ url }}/"
+  },
+  "mainEntityOfPage": "https://{{ url }}/projects/{{ metadata.id }}"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Projects", "item": "https://{{url}}/projects/"},
+    {"@type": "ListItem", "position": 2, "name": {{ metadata.title | tojson }}, "item": "https://{{url}}/projects/{{ metadata.id }}"}
+  ]
+}
+</script>
 {% endblock %}
 
 {% block content %}

@@ -45,6 +45,11 @@ footer{
 
 #logo>a{
     text-decoration: none;
+    font-family: "Orbitron", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 2em;
 }
 
 footer h2, section h2{

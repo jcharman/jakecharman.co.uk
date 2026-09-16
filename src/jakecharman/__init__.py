@@ -72,7 +72,7 @@ def inject_branding() -> dict:
         case _:
             brand = req_domain
     
-    return {'branding': brand}
+    return {'branding': brand, 'url': req_domain}
 
 @app.route('/')
 def index() -> str:

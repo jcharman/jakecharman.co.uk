@@ -6,7 +6,7 @@ set -x -o pipefail
 
 content_dir=""
 if [[ -d "../jc-content" ]]; then
-     content_dir="-v $(realpath ../jc-content):/var/www/jc/projects"
+     content_dir="-v $(realpath ../jc-content):/var/www/jc/projects:z"
 fi
 
-docker run -e DISCORD_ERR_HOOK=dummy $1 -v $(pwd)/src/:/var/www/jc $content_dir jc-ng-localtest
+docker run -e DISCORD_ERR_HOOK=dummy $1 $content_dir jc-ng-localtest

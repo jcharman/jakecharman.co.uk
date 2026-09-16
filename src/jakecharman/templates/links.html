@@ -12,6 +12,7 @@
                 {% if link.get('img') is not none %}
                 <a href="{{link.src}}" target="_blank"></a>
                     <img class="link-thumb" 
+                        alt="{{ link.title }}"
                         srcset="
                             {% for i in range(200, 5100, 100) %}
                                 /image/{{ link.img }}?w={{i}} {{i}}w{{"," if not loop.last}}

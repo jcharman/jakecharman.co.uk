@@ -24,6 +24,7 @@
                 <a href="/projects/{{ row.id }}">
             {% endif %}
                 <img class="project-thumb" 
+                alt="{{ row.alt }}"
                 srcset="
                     {% for i in range(200, 5100, 100) %}
                         /image/{{ row.image }}?w={{i}} {{i}}w{{"," if not loop.last}}

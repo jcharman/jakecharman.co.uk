@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Personal website of Jake Charman. A technology professional based in the UK.">
+    <meta name="description" content="{% block description %}Personal website of Jake Charman. A technology professional based in the UK.{% endblock %}">
     <title>{{ page_title }}{{branding}}</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Tourney:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&family=Tourney:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -31,6 +31,27 @@
 
         gtag('config', 'G-6WMXXY0RL0');
     </script>
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Jake Charman",
+        "url": "https://jakecharman.co.uk/",
+        "jobTitle": "Technology Professional",
+        "sameAs": [
+            "https://www.linkedin.com/in/jakecharman/",
+            "https://github.com/jcharman/"
+        ]
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "{{ branding }}",
+        "url": "https://{{ url }}/"
+        }
+    </script>
     {% block head %}{% endblock %}
 </head>
 <body>
@@ -43,7 +64,7 @@
         </nav>
         <div id="logo-container">
             <div id="logo">
-                <a href='/'><h1>{{branding|upper}}</h1></a>
+                <a href='/'>{{branding|upper}}</a>
             </div>
         </div>
     </header>
