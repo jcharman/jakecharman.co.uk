@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<main id="project-main">
+<main id="blog-main">
     <nav id="filter">
         <label for="filter_category">Filter:</label>
         <select id="filter_category" name="filter_category" onchange="update_filter()">
@@ -15,15 +15,15 @@
     <h2>{{ title }}</h2>
     <p>{{ description }}</p>
     <p style="text-align: center; font-weight: bold; font-style: italic;">This page is relatively new. I'm adding projects as fast as I can but feel free to <a href="/contact">contact me</a> if you want to know about something in particular.</p>
-    <section id="projects">
+    <section id="blog">
         {% for row in articles %}
-        <div class="project">
+        <div class="blog-post">
             {% if row.get('link') is not none %}
                 <a href="{{ row.link }}">
             {% else %}
-                <a href="/projects/{{ row.id }}">
+                <a href="/blog/{{ row.id }}">
             {% endif %}
-                <img class="project-thumb" 
+                <img class="blogpost-thumb" 
                 alt="{{ row.alt }}"
                 srcset="
                     {% for i in range(200, 5100, 100) %}
@@ -36,18 +36,18 @@
                     "
                 src="/image/{{ row.image }}">
             </a>
-            <div class="project-text">
+            <div class="blogpost-text">
                 {% if row.get('link') is not none %}
                     <a href="{{ row.link }}">
                 {% else %}
-                    <a href="/projects/{{ row.id }}">
+                    <a href="/blog/{{ row.id }}">
                 {% endif %}
                     <h3>{{ row.title }}</h3>
                 </a>
-                <p class="article-description">{{ row.description }}</p>
-                <p class="article-date">{{ row.date | human_date }}</p>
+                <p class="blogpost-description">{{ row.description }}</p>
+                <p class="blogpost-date">{{ row.date | human_date }}</p>
                 {% for category in row.categories %}
-                <a class="article-category" href="/projects/category/{{ category }}"> {{ all_categories.get(category, {}).get('title', '') }}{{ ", " if not loop.last }}</loop></a>
+                <a class="blogpost-category" href="/projects/category/{{ category }}"> {{ all_categories.get(category, {}).get('title', '') }}{{ ", " if not loop.last }}</loop></a>
                 {% endfor %}
             </div>
         </div>

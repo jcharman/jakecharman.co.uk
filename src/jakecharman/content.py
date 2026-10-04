@@ -10,12 +10,11 @@ from flask import render_template, Response, Blueprint
 from .storage import LocalStorage
 
 class ContentArea(Blueprint):
-    def __init__(self, directory: LocalStorage, *args, **kwargs):
+    def __init__(self, directory: LocalStorage, root_templ: str, post_templ: str, *args, **kwargs):
         self.md_directory = directory
 
         super().__init__(*args, **kwargs)
 
-        self.add_app_template_filter(self.category_title, 'category_title')
         self.add_app_template_filter(self.human_date, 'human_date')
         self.add_app_template_filter(self.to_html, 'to_html')
 
@@ -24,7 +23,9 @@ class ContentArea(Blueprint):
         self.add_url_rule('/', view_func=self.projects)
         self.add_url_rule('/category/<category_id>/', view_func=self.category)
         self.add_url_rule('/<article_id>', view_func=self.article)
-        #self.add_url_rule('/image/<image_name>', view_func=self.image)
+        
+        self.root_templ = root_templ
+        self.post_templ = post_templ
 
     def processor(self) -> dict:
         ''' Jninja processors '''
@@ -34,13 +35,6 @@ class ContentArea(Blueprint):
             all_text = ' '.join([x.get_text() for x in post_soup.findAll('p')])
             return ' '.join(all_text.split()[:200])
         return dict(get_excerpt=get_excerpt)
-
-    def category_title(self, category_id: str) -> str:
-        ''' Jninja filter to get a category title by its ID '''
-        with self.md_directory.open('categories.json') as categories_file:
-            categories = json.load(categories_file)
-
-        return categories.get(category_id).get('title', '')
 
     def human_date(self, iso_date: str) -> str:
         ''' Jninja filter to convert an ISO date to human readable. '''
@@ -90,7 +84,7 @@ class ContentArea(Blueprint):
                                 error='There\'s nothing here... yet.',
                                 description='I\'m still working on this page. Check back soon for some content.')
 
-        return render_template('projects.html',
+        return render_template(self.root_templ,
                             articles=articles_to_return,
                             all_categories=categories,
                             title='Projects',
@@ -123,7 +117,7 @@ class ContentArea(Blueprint):
                                 error='There\'s nothing here... yet.',
                                 description='I\'m still working on this page. Check back soon for some content.')
 
-        return render_template('projects.html', articles=articles_to_return,
+        return render_template(self.root_templ, articles=articles_to_return,
                             title=the_category['title'],
                             description=the_category['long_description'],
                             page_title=f'{the_category["title"]} - ',
@@ -140,6 +134,6 @@ class ContentArea(Blueprint):
             return Response(status=500)
 
         the_article = articles[0]
-        return render_template('article.html', post=markdown(the_article.content),
+        return render_template(self.post_templ, post=markdown(the_article.content),
                             metadata=the_article.metadata,
                             page_title=f'{the_article.metadata["title"]} - ')

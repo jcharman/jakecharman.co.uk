@@ -22,11 +22,23 @@ app = Flask(__name__)
 md_path = path.join(path.realpath(path.dirname(__file__)), path.normpath('../projects/'))
 
 projects = ContentArea(
-    directory=LocalStorage(md_path),
+    directory=LocalStorage(path.join(md_path, 'projects')),
+    root_templ='projects.html',
+    post_templ='article.html',
     name='projects',
-    import_name=__name__)
+    import_name=__name__
+    )
+
+blog = ContentArea(
+    directory=LocalStorage(path.join(md_path, 'blog')),
+    root_templ='blog.html',
+    post_templ='post.html',
+    name='blog',
+    import_name=__name__
+    )
 
 app.register_blueprint(projects, url_prefix='/projects')
+app.register_blueprint(blog, url_prefix='/blog')
 app.register_blueprint(ContactForm('contact', __name__), url_prefix='/contact')
 app.register_blueprint(Links(path.join(md_path, 'links.json'), 'links', __name__), url_prefix='/links')
 

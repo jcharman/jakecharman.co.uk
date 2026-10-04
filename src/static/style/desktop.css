@@ -129,4 +129,8 @@
         padding: 10px;
         height: 14vw;
     }
+
+    .blogpost-thumb {
+        width: 12.5vw;
+    }
 }

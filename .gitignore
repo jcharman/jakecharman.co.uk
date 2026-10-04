@@ -1,3 +1,4 @@
 __pycache__
 .vscode
 .buildinfo.json
+*.md

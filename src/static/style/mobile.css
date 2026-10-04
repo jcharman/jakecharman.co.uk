@@ -338,3 +338,17 @@ pre{
     height:  31vw;
     object-fit: cover;
 }
+
+.blog-post {
+    border: 5px solid #e5e5e5;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.blogpost-thumb {
+    float: left;
+    padding-right: 20px;
+    width: 25vw;
+}
