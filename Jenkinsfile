@@ -148,6 +148,7 @@ pipeline {
         stage('Clear cache') {
             steps{
                 sh "/var/lib/jenkins/clearCFCache/clearCache.py a514fb61e1413b88aabbb19df16b8508"
+                sh "/var/lib/jenkins/clearCFCache/clearCache.py 2e68842d0d5f5512f319e16d73899b9d"
             }
         }
     }
