@@ -26,6 +26,8 @@ projects = ContentArea(
     root_templ='projects.html',
     post_templ='article.html',
     name='projects',
+    title='Projects', 
+    desc='A selection of projects I\'ve been involved in',
     import_name=__name__
     )
 
@@ -34,6 +36,8 @@ blog = ContentArea(
     root_templ='blog.html',
     post_templ='post.html',
     name='blog',
+    title='Blog',
+    desc='Less formal writing, usually something I\'ve been working on that isn\'t worthy of a project write up',
     import_name=__name__
     )
 

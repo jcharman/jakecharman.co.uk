@@ -5,12 +5,13 @@ import json
 from datetime import datetime
 import frontmatter
 from markdown import markdown
+import readtime
 from bs4 import BeautifulSoup
 from flask import render_template, Response, Blueprint
 from .storage import LocalStorage
 
 class ContentArea(Blueprint):
-    def __init__(self, directory: LocalStorage, root_templ: str, post_templ: str, *args, **kwargs):
+    def __init__(self, directory: LocalStorage, root_templ: str, post_templ: str, title: str, desc: str, *args, **kwargs):
         self.md_directory = directory
 
         super().__init__(*args, **kwargs)
@@ -26,6 +27,8 @@ class ContentArea(Blueprint):
         
         self.root_templ = root_templ
         self.post_templ = post_templ
+        self.title = title
+        self.desc = desc
 
     def processor(self) -> dict:
         ''' Jninja processors '''
@@ -34,7 +37,14 @@ class ContentArea(Blueprint):
             post_soup = BeautifulSoup(html, 'html.parser')
             all_text = ' '.join([x.get_text() for x in post_soup.findAll('p')])
             return ' '.join(all_text.split()[:200])
-        return dict(get_excerpt=get_excerpt)
+
+        def get_readtime(post: str) -> str:
+            return readtime.of_html(post).text
+        
+        def get_readtime_mins(post: str) -> int:
+            return readtime.of_html(post).minutes
+
+        return dict(get_excerpt=get_excerpt, get_readtime=get_readtime, get_readtime_mins=get_readtime_mins)
 
     def human_date(self, iso_date: str) -> str:
         ''' Jninja filter to convert an ISO date to human readable. '''
@@ -87,9 +97,9 @@ class ContentArea(Blueprint):
         return render_template(self.root_templ,
                             articles=articles_to_return,
                             all_categories=categories,
-                            title='Projects',
+                            title=self.title,
                             page_title='Projects - ',
-                            description='A selection of projects I\'ve been involved in')
+                            description=self.desc)
 
     def category(self, category_id: str) -> str:
         ''' Load the page for a given category '''

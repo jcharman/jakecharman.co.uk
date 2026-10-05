@@ -17,6 +17,7 @@
   "@type": "BlogPosting",
   "headline": {{ metadata.title | tojson }},
   "description": {{ metadata.description | tojson }},
+  "timeRequired": "PT{{ get_readtime_mins(post) }}M",
   "datePublished": "{{ metadata.date }}",
   {% if metadata.updated %}
   "dateModified": "{{ metadata.updated }}",
@@ -34,9 +35,9 @@
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://{{ url }}/writing/{{ metadata.id }}"
+    "@id": "https://{{ url }}/blog/{{ metadata.id }}"
   },
-  "url": "https://{{ url }}/writing/{{ metadata.id }}",
+  "url": "https://{{ url }}/blog/{{ metadata.id }}",
   "inLanguage": "en-GB"
 }
 </script>
@@ -56,7 +57,11 @@
 <main>
     <section id="article">
         <h1>{{ metadata.title}} </h1>
+        <p>{{ get_readtime(post) }} read</p>
         <p>{{ metadata.date | human_date }}</p>
+        {% if metadata.updated %}
+        <p>Updated: {{ metadata.updated | human_date }}</p>
+        {% endif %}
         <hr />
         {{post|safe}}
     </section>

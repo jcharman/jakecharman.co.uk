@@ -339,6 +339,10 @@ pre{
     object-fit: cover;
 }
 
+#blog-main {
+    padding: 0 10px 0 10px;
+}
+
 .blog-post {
     border: 5px solid #e5e5e5;
     padding: 10px;

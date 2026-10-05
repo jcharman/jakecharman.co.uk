@@ -18,6 +18,7 @@
   "headline": {{ metadata.title | tojson }},
   "datePublished": "{{ metadata.date }}",
   "image": "https://{{ url }}/image/{{ metadata.image }}",
+  "timeRequired": "PT{{ get_readtime_mins(post) }}M",
   "author": {
     "@type": "Person",
     "name": "Jake Charman",
@@ -42,6 +43,7 @@
 <main>
     <section id="article">
         <h1>{{ metadata.title}} </h1>
+        <p>{{ get_readtime(post) }} read</p>
         <p>{{ metadata.date | human_date }}</p>
         <hr />
         {{post|safe}}

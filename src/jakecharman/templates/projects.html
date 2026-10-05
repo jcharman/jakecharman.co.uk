@@ -47,7 +47,7 @@
                 <p class="article-description">{{ row.description }}</p>
                 <p class="article-date">{{ row.date | human_date }}</p>
                 {% for category in row.categories %}
-                <a class="article-category" href="/projects/category/{{ category }}"> {{ all_categories.get(category, {}).get('title', '') }}{{ ", " if not loop.last }}</loop></a>
+                <a class="article-category" href="/projects/category/{{ category }}"> {{ all_categories.get(category, {}).get('title', '') }}{{ ", " if not loop.last }}</a>
                 {% endfor %}
             </div>
         </div>
