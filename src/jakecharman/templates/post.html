@@ -22,22 +22,22 @@
   {% if metadata.updated %}
   "dateModified": "{{ metadata.updated }}",
   {% endif %}
-  "image": "https://{{ url }}/image/{{ metadata.image }}",
+  "image": "https://jakec.tech/image/{{ metadata.image }}",
   "author": {
     "@type": "Person",
     "name": "Jake Charman",
-    "url": "https://{{ url }}/"
+    "url": "https://jakec.tech/"
   },
   "publisher": {
     "@type": "Person",
     "name": "Jake Charman",
-    "url": "https://{{ url }}/"
+    "url": "https://jakec.tech/"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://{{ url }}/blog/{{ metadata.id }}"
+    "@id": "https://jakec.tech/blog/{{ metadata.id }}"
   },
-  "url": "https://{{ url }}/blog/{{ metadata.id }}",
+  "url": "https://jakec.tech/blog/{{ metadata.id }}",
   "inLanguage": "en-GB"
 }
 </script>
@@ -46,8 +46,8 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {"@type": "ListItem", "position": 1, "name": "Projects", "item": "https://{{url}}/projects/"},
-    {"@type": "ListItem", "position": 2, "name": {{ metadata.title | tojson }}, "item": "https://{{url}}/projects/{{ metadata.id }}"}
+    {"@type": "ListItem", "position": 1, "name": "Projects", "item": "https://jakec.tech/projects/"},
+    {"@type": "ListItem", "position": 2, "name": {{ metadata.title | tojson }}, "item": "https://jakec.tech/projects/{{ metadata.id }}"}
   ]
 }
 </script>

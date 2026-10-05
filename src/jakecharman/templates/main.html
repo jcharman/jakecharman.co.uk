@@ -1,9 +1,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta property="og:url" content="{{ canonical_url }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% block description %}Personal website of Jake Charman. A technology professional based in the UK.{% endblock %}">
     <title>{{ page_title }}{{branding}}</title>
+    <link rel="canonical" href="{{ canonical_url }}">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Tourney:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&family=Tourney:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style/mobile.css" />
@@ -49,7 +51,7 @@
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "{{ branding }}",
-        "url": "https://{{ url }}/"
+        "url": "https://jakec.tech/"
         }
     </script>
     {% block head %}{% endblock %}

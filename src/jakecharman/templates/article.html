@@ -17,14 +17,14 @@
   "@type": "BlogPosting",
   "headline": {{ metadata.title | tojson }},
   "datePublished": "{{ metadata.date }}",
-  "image": "https://{{ url }}/image/{{ metadata.image }}",
+  "image": "https://jakec.tech/image/{{ metadata.image }}",
   "timeRequired": "PT{{ get_readtime_mins(post) }}M",
   "author": {
     "@type": "Person",
     "name": "Jake Charman",
-    "url": "https://{{ url }}/"
+    "url": "https://jakec.tech/"
   },
-  "mainEntityOfPage": "https://{{ url }}/projects/{{ metadata.id }}"
+  "mainEntityOfPage": "https://jakec.tech/projects/{{ metadata.id }}"
 }
 </script>
 <script type="application/ld+json">
@@ -32,8 +32,8 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {"@type": "ListItem", "position": 1, "name": "Projects", "item": "https://{{url}}/projects/"},
-    {"@type": "ListItem", "position": 2, "name": {{ metadata.title | tojson }}, "item": "https://{{url}}/projects/{{ metadata.id }}"}
+    {"@type": "ListItem", "position": 1, "name": "Projects", "item": "https://jakec.tech/projects/"},
+    {"@type": "ListItem", "position": 2, "name": {{ metadata.title | tojson }}, "item": "https://jakec.tech/projects/{{ metadata.id }}"}
   ]
 }
 </script>

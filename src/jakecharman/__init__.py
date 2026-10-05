@@ -90,6 +90,12 @@ def inject_branding() -> dict:
     
     return {'branding': brand, 'url': req_domain}
 
+@app.context_processor
+def inject_globals():
+    return {
+        'canonical_url': f"https://jakec.tech{request.path}"
+    }
+
 @app.route('/')
 def index() -> str:
     ''' Load the homepage '''
